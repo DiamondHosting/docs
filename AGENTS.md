@@ -41,3 +41,4 @@ This file provides guidance to AI coding agents like Claude Code (claude.ai/code
 - 客服信箱: service@diamondhost.tw
 - 名稱優先使用 鑽石託管 (DiamondHost)
 - 此專案使用 Fumadocs 作為文件系統，相關文件請參考：https://fumadocs.com
+- Logo是https://pub-5ac549c470174e40b03aefe882592ada.r2.dev/dmlogo.webp
