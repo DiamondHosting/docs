@@ -1,3 +1,47 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+
+@layer components {
+	#nd-nav {
+		--color-fd-background: rgba(233, 242, 255, 0.92);
+		--color-fd-foreground: #0f172a;
+		--color-fd-muted-foreground: #274884;
+		--color-fd-accent: rgba(37, 99, 235, 0.15);
+		--color-fd-accent-foreground: #0f172a;
+		--color-fd-border: rgba(37, 99, 235, 0.25);
+		background: linear-gradient(135deg, #e9f1ff 0%, #eff4ff 60%, #ffffff 100%) !important;
+		border-bottom: 1px solid rgba(37, 99, 235, 0.25) !important;
+		color: var(--color-fd-foreground);
+	}
+
+	html[data-theme='dark'] #nd-nav,
+	.dark #nd-nav {
+		--color-fd-background: rgba(3, 10, 30, 0.92);
+		--color-fd-foreground: #e5ecff;
+		--color-fd-muted-foreground: #9eb0ff;
+		--color-fd-accent: rgba(37, 99, 235, 0.25);
+		--color-fd-accent-foreground: #e5ecff;
+		--color-fd-border: rgba(37, 99, 235, 0.35);
+		background: linear-gradient(135deg, #020a1e 0%, #031433 60%, #020a1e 100%) !important;
+		border-bottom: 1px solid rgba(37, 99, 235, 0.35) !important;
+		color: var(--color-fd-foreground);
+	}
+
+	#nd-nav a,
+	#nd-nav button {
+		color: inherit;
+	}
+
+	#nd-nav a:hover,
+	#nd-nav button:hover {
+		color: #1d4ed8;
+	}
+
+	html[data-theme='dark'] #nd-nav a:hover,
+	.dark #nd-nav a:hover,
+	html[data-theme='dark'] #nd-nav button:hover,
+	.dark #nd-nav button:hover {
+		color: #f1f5ff;
+	}
+}
