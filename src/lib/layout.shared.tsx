@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 
 /**
@@ -12,7 +13,7 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <>
-          <img
+          <Image
             src="https://pub-5ac549c470174e40b03aefe882592ada.r2.dev/dmlogo.webp"
             alt="DiamondHost Logo"
             width={28}
