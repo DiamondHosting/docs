@@ -42,3 +42,6 @@ This file provides guidance to AI coding agents like Claude Code (claude.ai/code
 - 名稱優先使用 鑽石託管 (DiamondHost)
 - 此專案使用 Fumadocs 作為文件系統，相關文件請參考：https://fumadocs.com
 - Logo是https://pub-5ac549c470174e40b03aefe882592ada.r2.dev/dmlogo.webp
+- 以Minecraft為主要推廣遊戲伺服器託管服務
+- 請遵守MDX文件的格式與規範
+- Discord頻道：https://discord.gg/EuH6qm7jPp
