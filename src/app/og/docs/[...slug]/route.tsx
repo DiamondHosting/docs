@@ -18,7 +18,7 @@ export async function GET(
       <DefaultImage
         title={page.data.title}
         description={page.data.description}
-        site="鑽石託管 DiamondHost官方文檔"
+        site="鑽石託管 DiamondHost 官方文檔"
       />
     ),
     {
