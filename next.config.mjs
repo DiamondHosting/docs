@@ -9,7 +9,7 @@ const config = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'pub-5ac549c470174e40b03aefe882592ada.r2.dev',
+        hostname: 'r2.diamondhost.tw',
       },
     ],
   },

@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   },
   description: '鑽石託管 DiamondHost 提供穩定的託管服務與完整的文件支援。',
   icons: {
-    icon: 'https://pub-5ac549c470174e40b03aefe882592ada.r2.dev/dmlogo.webp',
-    shortcut: 'https://pub-5ac549c470174e40b03aefe882592ada.r2.dev/dmlogo.webp',
+    icon: 'https://r2.diamondhost.tw/logo.webp',
+    shortcut: 'https://r2.diamondhost.tw/logo.webp',
   },
 };
 

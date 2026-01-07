@@ -1,8 +1,13 @@
 {
   "title": "政策與法務",
+  "root": true,
+  "sidebar": {
+    "hidden": true
+  },
   "pages": [
+    "index",
     "terms-of-service",
     "privacy-policy"
   ],
-  "defaultOpen": true
+  "defaultOpen": false
 }
