@@ -7,18 +7,6 @@ export default function Layout({ children }: LayoutProps<'/docs'>) {
     <DocsLayout
       tree={source.pageTree}
       {...baseOptions()}
-      sidebar={{
-        tabs: [
-          {
-            title: '文件',
-            url: '/docs',
-          },
-          {
-            title: '政策與法務',
-            url: '/docs/policies',
-          },
-        ],
-      }}
     >
       {children}
     </DocsLayout>
