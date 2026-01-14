@@ -1,0 +1,66 @@
+---
+title: Minecraft 專用
+icon: Gamepad2
+---
+
+# Minecraft 專用 (Minecraft Specific)
+路徑: `/api/client/servers/{server}`
+
+## 模組包管理器 (Modpack Manager)
+基礎路徑: `/api/client/extensions/modpackmanager/servers/{server}`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/minecraft-modpacks` | 列出模組包 (Modpacks)。 |
+| `GET` | `/minecraft-modpacks/versions` | 列出模組包版本。 |
+| `POST` | `/minecraft-modpacks/install` | 安裝模組包。 |
+
+## 伺服器屬性管理器 (Server Properties Manager)
+基礎路徑: `/api/client/extensions/serverpropertiesmanager/servers/{server}`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/properties` | 獲取 server.properties。 |
+| `POST` | `/properties/save` | 儲存 server.properties。 |
+
+## MCLogs 管理器 (MCLogs Manager)
+基礎路徑: `/api/client/extensions/mclogsmanager/servers/{server}`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/mclogs` | 查看 MCLogs。 |
+| `POST` | `/mclogs/upload` | 上傳日誌到 MCLogs。 |
+
+## 版本切換器 (Version Changer)
+基礎路徑: `/api/client/extensions/versionchanger/servers/{server}`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/installed` | 獲取當前安裝的版本資訊。 |
+| `POST` | `/install` | 安裝特定版本。 |
+| `GET` | `/install/status/{id}` | 檢查安裝狀態。 |
+| `GET` | `/install/latest` | 獲取最新可用版本。 |
+| `GET` | `/types` | 獲取可用版本類型 (Vanilla, Paper 等)。 |
+| `GET` | `/types/{type}` | 獲取某一類型的版本列表。 |
+| `GET` | `/types/{type}/{version}` | 獲取特定版本的建置 (Builds)。 |
+
+## Minecraft 玩家管理器 (Minecraft Player Manager)
+基礎路徑: `/api/client/extensions/minecraftplayermanager/servers/{server}`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/` | 獲取線上玩家。 |
+| `GET` | `/skin` | 獲取玩家皮膚資訊。 |
+| `GET` | `/offline` | 獲取離線玩家。 |
+| `GET` | `/stats/{uuid}` | 獲取玩家統計數據。 |
+| `POST` | `/whitelist/status` | 切換白名單狀態 (setwhitelist)。 |
+| `PUT` | `/whitelist` | 新增玩家到白名單。 |
+| `DELETE` | `/whitelist` | 從白名單移除玩家。 |
+| `PUT` | `/op` | 給予玩家 OP 權限。 |
+| `DELETE` | `/op` | 取消玩家 OP 權限。 |
+| `PUT` | `/ban` | 封鎖玩家。 |
+| `DELETE` | `/ban` | 解除封鎖玩家。 |
+| `PUT` | `/ban-ip` | 封鎖 IP。 |
+| `POST` | `/kick` | 踢出玩家。 |
+| `POST` | `/kill` | 殺死玩家。 |
+| `POST` | `/clear` | 清空玩家背包。 |

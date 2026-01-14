@@ -1,0 +1,19 @@
+---
+title: 排程系統
+icon: CalendarClock
+---
+
+# 排程 (Schedules)
+路徑: `/api/client/servers/{server}/schedules`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/` | 列出排程。 |
+| `POST` | `/` | 建立排程。 |
+| `GET` | `/{schedule}` | 獲取排程詳細資訊。 |
+| `POST` | `/{schedule}` | 更新排程。 |
+| `POST` | `/{schedule}/execute` | 立即執行排程。 |
+| `DELETE` | `/{schedule}` | 刪除排程。 |
+| `POST` | `/{schedule}/tasks` | 建立排程任務。 |
+| `POST` | `/{schedule}/tasks/{task}` | 更新排程任務。 |
+| `DELETE` | `/{schedule}/tasks/{task}` | 刪除排程任務。 |

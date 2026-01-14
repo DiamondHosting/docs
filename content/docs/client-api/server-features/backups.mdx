@@ -1,0 +1,17 @@
+---
+title: 備份系統
+icon: Archive
+---
+
+# 備份 (Backups)
+路徑: `/api/client/servers/{server}/backups`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/` | 列出備份。 |
+| `POST` | `/` | 建立備份。 |
+| `GET` | `/{backup}` | 獲取備份詳細資訊。 |
+| `GET` | `/{backup}/download` | 下載備份。 |
+| `POST` | `/{backup}/lock` | 鎖定/解鎖備份。 |
+| `POST` | `/{backup}/restore` | 還原備份。 |
+| `DELETE` | `/{backup}` | 刪除備份。 |

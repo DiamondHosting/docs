@@ -1,0 +1,23 @@
+---
+title: 檔案管理
+icon: FolderOpen
+---
+
+# 檔案管理器 (File Manager)
+路徑: `/api/client/servers/{server}/files`
+
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/list` | 列出目錄內容。 |
+| `GET` | `/contents` | 獲取檔案內容。 |
+| `GET` | `/download` | 生成下載連結。 |
+| `GET` | `/upload` | 獲取上傳連結/金鑰。 |
+| `PUT` | `/rename` | 重新命名檔案。 |
+| `POST` | `/copy` | 複製檔案。 |
+| `POST` | `/write` | 寫入內容到檔案。 |
+| `POST` | `/compress` | 壓縮檔案。 |
+| `POST` | `/decompress` | 解壓縮檔案。 |
+| `POST` | `/delete` | 刪除檔案。 |
+| `POST` | `/create-folder` | 建立新目錄。 |
+| `POST` | `/chmod` | 更改檔案權限。 |
+| `POST` | `/pull` | 下載功能 (從遠端拉取檔案)。 |

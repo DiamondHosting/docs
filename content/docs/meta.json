@@ -3,6 +3,8 @@
     "pages": [
         "index",
         "pricing",
-        "policies"
-    ]
+        "policies",
+        "client-api"
+    ],
+    "icon": "PcCase"
 }

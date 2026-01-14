@@ -1,0 +1,13 @@
+{
+    "title": "伺服器功能",
+    "pages": [
+        "servers",
+        "files",
+        "schedules",
+        "users",
+        "backups",
+        "startup",
+        "subdomain"
+    ],
+    "icon": "Server"
+}

@@ -1,0 +1,37 @@
+---
+title: 帳戶管理
+icon: UserCog
+---
+
+# 帳戶管理 (Account Management)
+基礎路徑: `/api/client/account`
+
+## 個人資料 (Profile)
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/` | 獲取當前用戶的帳戶詳細資訊。 |
+| `PUT` | `/email` | 更新電子郵件地址。 |
+| `PUT` | `/password` | 更新密碼。 |
+| `PUT` | `/username` | 更新使用者名稱。 |
+| `GET` | `/activity` | 獲取帳戶活動日誌。 |
+
+## 安全性 (2FA & WebAuthn)
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/two-factor` | 獲取 2FA 設置詳細資訊 (QR 碼)。 |
+| `POST` | `/two-factor` | 啟用 2FA。 |
+| `POST` | `/two-factor/disable` | 停用 2FA。 |
+| `GET` | `/webauthn` | 列出已註冊的 WebAuthn 憑證。 |
+| `POST` | `/webauthn/register/options` | 獲取 WebAuthn 註冊挑戰。 |
+| `POST` | `/webauthn/register` | 完成 WebAuthn 註冊。 |
+| `DELETE` | `/webauthn/{id}` | 刪除 WebAuthn 憑證。 |
+
+## API 金鑰 & SSH
+| 方法 | 端點 | 描述 |
+| :--- | :--- | :--- |
+| `GET` | `/api-keys` | 列出 API 金鑰。 |
+| `POST` | `/api-keys` | 建立新的 API 金鑰。 |
+| `DELETE` | `/api-keys/{identifier}` | 刪除 API 金鑰。 |
+| `GET` | `/ssh-keys` | 列出 SSH 金鑰。 |
+| `POST` | `/ssh-keys` | 新增 SSH 金鑰。 |
+| `POST` | `/ssh-keys/remove` | 刪除 SSH 金鑰。 |

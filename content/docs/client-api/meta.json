@@ -1,0 +1,10 @@
+{
+    "title": "用戶端 API",
+    "pages": [
+        "index",
+        "account",
+        "server-features",
+        "minecraft"
+    ],
+    "icon": "Terminal"
+}
