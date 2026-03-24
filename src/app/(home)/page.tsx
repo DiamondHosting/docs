@@ -12,7 +12,7 @@ export default function HomePage() {
           Minecraft 伺服器託管新選擇
         </span>
         <h1 className="mt-6 text-4xl font-bold tracking-tight text-[#0f172a] dark:text-[#e5ecff] sm:text-5xl">
-          鑽石託管 DiamondHost
+          鑽石託管 DiamondHost 官方文檔
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-[#274884] dark:text-[#a8b9ff]">
           專為 Minecraft 社群打造的全方位託管平台，提供穩定低延遲、即時擴充與專業技術支援，讓你把時間花在經營伺服器，而不是維護硬體。

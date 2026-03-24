@@ -15,21 +15,12 @@ icon: Gamepad2
 | `GET` | `/minecraft-modpacks/versions` | 列出模組包版本。 |
 | `POST` | `/minecraft-modpacks/install` | 安裝模組包。 |
 
-## 伺服器屬性管理器 (Server Properties Manager)
-基礎路徑: `/api/client/extensions/serverpropertiesmanager/servers/{server}`
-
-| 方法 | 端點 | 描述 |
-| :--- | :--- | :--- |
-| `GET` | `/properties` | 獲取 server.properties。 |
-| `POST` | `/properties/save` | 儲存 server.properties。 |
-
 ## MCLogs 管理器 (MCLogs Manager)
 基礎路徑: `/api/client/extensions/mclogsmanager/servers/{server}`
 
 | 方法 | 端點 | 描述 |
 | :--- | :--- | :--- |
 | `GET` | `/mclogs` | 查看 MCLogs。 |
-| `POST` | `/mclogs/upload` | 上傳日誌到 MCLogs。 |
 
 ## 版本切換器 (Version Changer)
 基礎路徑: `/api/client/extensions/versionchanger/servers/{server}`
