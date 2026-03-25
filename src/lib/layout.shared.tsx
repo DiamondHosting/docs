@@ -14,7 +14,7 @@ export function baseOptions(): BaseLayoutProps {
       title: (
         <>
           <Image
-            src="https://r2.diamondhost.tw/logo.webp"
+            src="https://r2.diamondhost.tw/logo.png"
             alt="DiamondHost Logo"
             width={28}
             height={28}

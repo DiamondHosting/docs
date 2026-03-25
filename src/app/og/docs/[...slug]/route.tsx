@@ -42,7 +42,7 @@ export async function GET(
 
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px', zIndex: 10 }}>
           <img
-            src="https://r2.diamondhost.tw/logo.webp"
+            src="https://r2.diamondhost.tw/logo.png"
             width="80"
             height="80"
             style={{ borderRadius: '16px', marginRight: '24px', boxShadow: '0 0 30px rgba(59, 130, 246, 0.3)' }}
