@@ -1,10 +1,10 @@
 {
-    "title": "文件",
+    "title": "文檔",
     "pages": [
         "index",
         "pricing",
-        "policies",
-        "client-api"
+        "client-api",
+        "policies"
     ],
     "icon": "PcCase"
 }
