@@ -90,7 +90,12 @@ export async function GET(
           gap: '12px',
           zIndex: 10
         }}>
-          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#3b82f6' }} />
+          <img
+            src="https://r2.diamondhost.tw/logo.png"
+            width="24"
+            height="24"
+            style={{ borderRadius: '6px' }}
+          />
           <span style={{ fontSize: '22px', color: '#64748b', fontWeight: 600 }}>docs.diamondhost.tw</span>
         </div>
       </div>
