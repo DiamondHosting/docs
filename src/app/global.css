@@ -25,7 +25,3 @@
 		color: #f1f5ff;
 	}
 }
-
-@utility inset-s-4 {
-	inset-inline-start: 1rem;
-}
