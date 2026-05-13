@@ -26,7 +26,7 @@ import { Providers } from '@/components/providers';
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="zh-TW" className={inter.className} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen" suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>
