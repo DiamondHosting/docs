@@ -1,6 +1,5 @@
 import '@/app/global.css';
 import type { ReactNode } from 'react';
-import { RootProvider } from 'fumadocs-ui/provider/next';
 import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 
@@ -22,11 +21,13 @@ export const metadata: Metadata = {
 
 
 
+import { Providers } from '@/components/providers';
+
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="zh-cmn-Hant" className={inter.className} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
+    <html lang="zh-TW" className={inter.className} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider theme={{ forcedTheme: 'dark' }}>{children}</RootProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

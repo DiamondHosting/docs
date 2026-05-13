@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export default function HomePage() {
+  redirect('/docs');
   return (
     <main className="relative flex flex-1 flex-col gap-16 overflow-hidden bg-gradient-to-br from-[#e9f2ff] via-[#f3f7ff] to-white px-6 py-16 dark:from-[#010617] dark:via-[#021433] dark:to-[#010617] sm:px-10">
       <div
