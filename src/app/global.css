@@ -2,6 +2,12 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+@source "../../node_modules/fumadocs-ui/dist/**/*.js";
+
+@utility -inset-s-4 {
+	inset-inline-start: -1rem;
+}
+
 @layer components {
 	#nd-nav {
 		--color-fd-background: rgba(3, 10, 30, 0.92);
@@ -23,5 +29,9 @@
 	#nd-nav a:hover,
 	#nd-nav button:hover {
 		color: #f1f5ff;
+	}
+
+	[data-active='true']::before {
+		display: none !important;
 	}
 }
