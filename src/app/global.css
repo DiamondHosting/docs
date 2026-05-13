@@ -24,8 +24,8 @@
 	#nd-nav button:hover {
 		color: #f1f5ff;
 	}
+}
 
-	.-inset-s-4 {
-		inset-inline-start: -1rem;
-	}
+@utility inset-s-4 {
+	inset-inline-start: 1rem;
 }
