@@ -3,6 +3,7 @@
     "pages": [
         "index",
         "pricing",
+        "discord-binding",
         "client-api",
         "policies",
         "troubleshooting"
