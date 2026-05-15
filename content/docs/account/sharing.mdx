@@ -1,0 +1,77 @@
+---
+title: 權限分享與子帳號
+description: 如何與團隊分享帳號權限
+---
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+
+# 權限分享與子帳號
+
+如果您是團隊經營或是需要由他人協助處理帳務、技術支援，您可以透過我們的商店系統（WHMCS）邀請其他使用者加入您的帳號，並根據需求授予不同的管理權限。
+
+<Callout type="info">
+  子帳號功能與控制面板（Pterodactyl）的子使用者功能是分開的。本教學適用於 **商店帳務與服務管理** 權限分享。
+</Callout>
+
+---
+
+## 快速操作示範
+
+您可以透過下方的影片快速了解如何邀請新使用者並設定權限：
+
+<video autoPlay loop muted playsInline className="w-full aspect-video rounded-xl shadow-lg mt-4 mb-8">
+  <source src="/images/share.mp4" type="video/mp4" />
+  您的瀏覽器不支援影片播放。
+</video>
+
+---
+
+## 詳細設定步驟
+
+<Steps>
+<Step>
+### 進入使用者管理
+登入 [鑽石託管商店](https://store.diamondhost.tw) 後，點擊右上角的「您的名稱」，在下拉選單中選擇 **「使用者管理 (User Management)」**。
+</Step>
+
+<Step>
+### 邀請新使用者
+在頁面中輸入您欲邀請對象的 **電子郵件地址 (Email)**，然後點擊 **「發送邀請 (Send Invite)」**。
+</Step>
+
+<Step>
+### 設定權限範圍
+您可以針對該位使用者選擇「完整權限」或「自訂權限」。以下是您可以細節設定的項目：
+
+- **基本帳戶管理**：修改主帳戶設定檔、檢視 & 管理聯絡人、查看 Email 通知。
+- **產品與服務**：查看產品 & 服務、變更與修改產品密碼、執行單一登入（SSO）。
+- **網域管理**：查看網域、管理網域設定。
+- **財務與帳單**：查看與支付帳單、檢視 & 接受估價單、查看和管理會員帳戶（推廣回饋）。
+- **技術支援與訂購**：查看與建立服務單（Ticket）、發出新的客戶/更新/取消。
+</Step>
+
+<Step>
+### 對方收信驗證
+受邀者會收到一封標題為「您受邀管理帳號」的電子郵件（如下圖）。對方點擊信中的 **「接受邀請並前往」** 按鈕，登入（或註冊）帳號後即可完成權限連結。
+
+<img src="/images/invite-email.png" alt="帳號存取邀請範例" className="rounded-xl border border-fd-border my-4 shadow-md" />
+
+<Callout type="info">
+  此邀請連結有效期為 **7 天**。若超過期限，請回到商店重新發送邀請。
+</Callout>
+</Step>
+</Steps>
+
+---
+
+## 常見問題
+
+<Callout type="warn" title="安全提示">
+  請務必只將權限分享給您信任的夥伴。擁有「完整權限」的使用者將可以變更您的服務狀態，甚至可能影響到您的帳務資訊。
+</Callout>
+
+### 如何撤銷權限？
+您隨時可以回到「使用者管理」頁面，找到該位使用者並點擊「移除 (Remove)」按鈕，對方便會立即失去對您帳號的存取權。
+
+### 為什麼對方沒收到信？
+請對方檢查垃圾郵件箱，或者確認輸入的 Email 是否正確。您也可以在頁面中點擊「重新發送邀請」。

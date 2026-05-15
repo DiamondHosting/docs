@@ -1,0 +1,76 @@
+---
+title: 啟動伺服器
+description: 如何登入控制面板並啟動您的 Minecraft 伺服器
+icon: Play
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# 啟動伺服器
+
+當您成功購買並收到「開通成功」信件後，就可以登入我們的伺服器控制面板（Pterodactyl Panel）來啟動您的主機了！
+
+## 完整操作示範影片
+
+透過下方的示範影片，您可以快速了解從登入面板到成功啟動伺服器的完整流程：
+
+<video autoPlay loop muted playsInline className="w-full aspect-video rounded-xl shadow-lg mt-4 mb-8 pointer-events-none">
+  <source src="/images/start-server.mp4" type="video/mp4" />
+  您的瀏覽器不支援影片播放。
+</video>
+
+## 詳細圖文步驟
+
+<Steps>
+<Step>
+### 登入控制面板
+
+1. 開啟開通信件，找到您的 **控制面板網址**、**登入帳號** 與 **密碼**。
+2. 點擊網址前往面板登入頁面。
+3. 輸入信件中提供的帳號與密碼完成登入。
+
+<Callout type="info">
+  建議您在首次登入後，可以點擊右上角的頭像前往「帳號設定」修改密碼，以確保帳戶安全。
+</Callout>
+</Step>
+
+<Step>
+### 進入伺服器終端機 (Console)
+
+登入後，您會看到帳號底下擁有的伺服器列表。
+點選您剛購買的伺服器，即可進入該伺服器的 **終端機 (Console)** 頁面。這會是您最常使用、用來下達指令與查看伺服器狀態的地方。
+</Step>
+
+<Step>
+### 點擊啟動與接受 EULA
+
+在終端機頁面的右上角，找到並點擊藍色的 **「啟動 (Start)」** 按鈕。
+
+如果是首次啟動 Minecraft 伺服器，系統可能會彈出要求您同意 **Minecraft EULA（使用者授權合約）** 的提示框，請點擊 **「I Accept (我同意)」** 以繼續啟動。
+</Step>
+
+<Step>
+### 等待啟動完成
+
+啟動過程中，終端機會不斷跑出許多日誌訊息，這屬於正常現象，代表系統正在載入世界與讀取設定檔。
+當您在最後看到類似以下的訊息時，就代表伺服器已經成功啟動並準備就緒了：
+```text
+[Server thread/INFO]: Done (12.345s)! For help, type "help"
+```
+</Step>
+
+<Step>
+### 複製連線 IP 並加入遊戲
+
+在面板伺服器名稱的下方，您可以找到伺服器的 **連線位置 (IP 與 Port)**，例如：`server.diamondhost.tw:25565`。
+點選它即可自動複製。接著：
+1. 打開您的 Minecraft 遊戲。
+2. 進入「多人遊戲」>「新增伺服器」或「直接連線」。
+3. 將剛剛複製的 IP 貼上至「伺服器位址」欄位，點擊加入即可連線遊玩！
+</Step>
+</Steps>
+
+---
+
+下一步：學會啟動伺服器後，您可以進一步探索如何上傳地圖與插件，請參閱 [檔案與 FTP 管理](/docs/operations/files)。

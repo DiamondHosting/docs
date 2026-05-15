@@ -2,11 +2,21 @@
     "title": "文檔",
     "pages": [
         "index",
+        "---快速開始---",
         "pricing",
+        "buy-server",
+        "start-server",
+        "---官方商店---",
         "discord-binding",
+        "account",
+        "payment-methods",
+        "---控制面板---",
+        "operations",
+        "---其他---",
+        "faq",
+        "troubleshooting",
         "client-api",
-        "policies",
-        "troubleshooting"
+        "policies"
     ],
     "icon": "PcCase"
 }

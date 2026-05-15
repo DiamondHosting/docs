@@ -18,7 +18,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const page = source.getPage(slug);
   if (!page) notFound();
 
-  const MDX = page.data.body;
+  const { body: MDX } = page.data as any;
   const markdownUrl = getPageMarkdownUrl(page).url;
 
   const gitConfig = {
@@ -28,7 +28,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   };
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full} tableOfContent={{ style: 'clerk' }}>
+    <DocsPage toc={(page.data as any).toc} full={(page.data as any).full} tableOfContent={{ style: 'clerk' }}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6 mt-4 mb-8">
