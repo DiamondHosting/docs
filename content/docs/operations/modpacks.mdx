@@ -3,13 +3,18 @@ title: 模組包快速安裝
 description: 透過內建面板快速安裝熱門 Minecraft 模組包
 ---
 
+import { Callout } from 'fumadocs-ui/components/callout';
+
 # 模組包快速安裝
 
 我們的面板內建了模組包快速安裝功能，讓您可以輕鬆部署熱門的模組包（如 Pixelmon、RLCraft、All the Mods 等），無需手動上傳檔案。
 
 ### 安裝教學影片
 
-{/* Video removed for debugging */}
+<video autoPlay loop muted playsInline className="w-full aspect-video rounded-xl shadow-lg mt-4 mb-8 pointer-events-none">
+  <source src="/images/modpack-easyinstall.mp4" type="video/mp4" />
+  您的瀏覽器不支援影片播放。
+</video>
 
 
 ### 安裝步驟
@@ -26,8 +31,9 @@ description: 透過內建面板快速安裝熱門 Minecraft 模組包
    - 如果您希望清空目前的伺服器檔案再安裝，請勾選「格式化 (Format)」相關選項。
    - 點擊「安裝」開始程序。
 
-   > [!IMPORTANT]
-   > **下載需要時間**：由於部分模組包檔案體積較大（可能包含數百個模組及地圖檔案），下載與解壓縮過程需要一段時間。請在安裝頁面稍作等待，切勿在安裝完成前關閉視窗或重啟伺服器。
+   <Callout type="warn" title="下載需要時間">
+     由於部分模組包檔案體積較大（可能包含數百個模組及地圖檔案），下載與解壓縮過程需要一段時間。請在安裝頁面稍作等待，切勿在安裝完成前關閉視窗或重啟伺服器。
+   </Callout>
 
 ### 安裝完成後
 
