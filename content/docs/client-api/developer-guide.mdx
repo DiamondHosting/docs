@@ -1,0 +1,296 @@
+---
+title: 開發者集成與 WebSocket 指南
+description: 提供開發者如何整合 API、處理速率限制以及透過 WebSocket 進行即時控制台連線與狀態監控。
+icon: Terminal
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+
+# 開發者集成與 WebSocket 指南
+
+本指南專為希望基於鑽石託管 API 進行二次開發的程式設計師與系統整合人員設計。我們將在此介紹基本的 API 調用流程、程式範例以及最核心的**控制台 WebSocket 即時雙向連線機制**。
+
+---
+
+## 快速起步
+
+<Steps>
+<Step>
+### 取得憑證
+登入您的 [鑽石託管面板](https://panel.diamondhost.tw)，前往 **「帳戶設定」->「API 金鑰」**，點擊 **「新增」**。為金鑰提供一個易辨識的名稱，生成後複製保存您的 Bearer Token。
+</Step>
+
+<Step>
+### 發送第一個 API 請求
+使用您最熟悉的程式語言或 cURL 測試連線。
+<Tabs items={['cURL', 'Node.js', 'Python', 'Go', 'Java', 'C#']}>
+  <Tab value="cURL">
+    ```bash
+    curl -X GET "https://panel.diamondhost.tw/api/client" \
+      -H "Authorization: Bearer dhp_your_secret_api_key" \
+      -H "Accept: application/json"
+    ```
+  </Tab>
+  <Tab value="Node.js">
+    ```javascript
+    const axios = require('axios');
+
+    axios.get('https://panel.diamondhost.tw/api/client', {
+      headers: {
+        'Authorization': 'Bearer dhp_your_secret_api_key',
+        'Accept': 'application/json'
+      }
+    })
+    .then(res => console.log(res.data))
+    .catch(err => console.error(err));
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python
+    import requests
+
+    headers = {
+        "Authorization": "Bearer dhp_your_secret_api_key",
+        "Accept": "application/json"
+    }
+
+    response = requests.get("https://panel.diamondhost.tw/api/client", headers=headers)
+    print(response.json())
+    ```
+  </Tab>
+  <Tab value="Go">
+    ```go
+    package main
+
+    import (
+        "fmt"
+        "io"
+        "net/http"
+    )
+
+    func main() {
+        req, _ := http.NewRequest("GET", "https://panel.diamondhost.tw/api/client", nil)
+        req.Header.Set("Authorization", "Bearer dhp_your_secret_api_key")
+        req.Header.Set("Accept", "application/json")
+
+        client := &http.Client{}
+        resp, _ := client.Do(req)
+        defer resp.Body.Close()
+
+        body, _ := io.ReadAll(resp.Body)
+        fmt.Println(string(body))
+    }
+    ```
+  </Tab>
+  <Tab value="Java">
+    ```java
+    import java.net.URI;
+    import java.net.http.HttpClient;
+    import java.net.http.HttpRequest;
+    import java.net.http.HttpResponse;
+
+    public class Main {
+        public static void main(String[] args) throws Exception {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://panel.diamondhost.tw/api/client"))
+                    .header("Authorization", "Bearer dhp_your_secret_api_key")
+                    .header("Accept", "application/json")
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+        }
+    }
+    ```
+  </Tab>
+  <Tab value="C#">
+    ```csharp
+    using System;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+
+    class Program {
+        static async Task Main() {
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "dhp_your_secret_api_key");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = await client.GetAsync("https://panel.diamondhost.tw/api/client");
+            var content = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(content);
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+</Step>
+</Steps>
+
+---
+
+## WebSocket 控制台雙向連線
+
+為了即時監控伺服器（例如：取得遊戲輸出、TPS 指標、記憶體使用率等）或發送命令，您不能一直輪詢 (Polling) API。您必須建立一個長連接的 WebSocket 來與 Node 上的 `Wings` 守護行程通訊。
+
+<Callout type="info">
+  WebSocket 的連接密鑰是**一次性且有時效限制**的。如果連線中斷或連線失敗，您必須重新打 API 索取新的 Token。
+</Callout>
+
+### 建立連線流程
+
+<Steps>
+<Step>
+### 向面板索取 WebSocket 認證資料
+發送 `GET` 請求至 `/api/client/servers/{server}/websocket` 以獲取一次性的 Token 和 Wings 連線位址。
+
+*   **請求端點**: `/api/client/servers/{server}/websocket`
+*   **回傳範例**:
+    ```json
+    {
+      "data": {
+        "token": "eyJhbGciOi...",
+        "socket": "wss://node1.diamondhost.tw:8080/api/servers/e1b2c3d4/ws"
+      }
+    }
+    ```
+</Step>
+
+<Step>
+### 連接 WebSocket
+使用回傳的 `socket` 網址建立連線。此時連線已開啟，但需要立即進行身份認證。
+</Step>
+
+<Step>
+### 發送驗證事件 (Authentication)
+連線成功後，必須發送第一個 JSON 訊息進行認證。格式如下：
+
+```json
+{
+  "event": "auth",
+  "args": ["eyJhbGciOi..."] // 剛剛取得的 Token
+}
+```
+Wings 驗證成功後將會回傳驗證成功的通知，並開始向您推播事件。
+</Step>
+</Steps>
+
+---
+
+### WebSocket 可訂閱事件 (Inbound Events)
+
+連線建立且認證成功後，您會收到來自 Wings 的各類即時事件通知：
+
+| 事件名稱 (Event) | 回傳參數 (Args) 範例 | 說明 |
+| :--- | :--- | :--- |
+| `auth success` | *無* | 連線驗證成功 |
+| `status` | `["running"]` 或 `["offline"]` | 伺服器電源狀態變更 |
+| `console output` | `["[12:00:00 INFO]: Player joined the game"]` | 伺服器控制台的標準輸出 (Console Log) |
+| `stats` | `{"cpu_absolute": 12.5, "memory_bytes": 1073741824, ...}` | 伺服器的 CPU、記憶體、硬碟及頻寬的即時資源數據 |
+| `token expiring` | *無* | 當前的認證 Token 即將過期（通常在使用數小時後），提示需重新獲取 Token |
+
+---
+
+### WebSocket 發送指令事件 (Outbound Events)
+
+您可以透過此 WebSocket 即時發送指令至控制台，或操作伺服器開關：
+
+#### 1. 發送控制台命令
+發送事件名稱為 `send command`，並附帶要執行的指令：
+```json
+{
+  "event": "send command",
+  "args": ["say Hello from my bot!"]
+}
+```
+
+#### 2. 切換伺服器電源狀態
+發送事件名稱為 `send state`，可用參數包括 `start`, `stop`, `restart`, `kill`：
+```json
+{
+  "event": "send state",
+  "args": ["restart"]
+}
+```
+
+---
+
+## 完整的 Node.js 連線範例
+
+以下是使用 `ws` 庫連接鑽石託管伺服器 WebSocket 的完整實作範例。
+
+```javascript
+const WebSocket = require('ws');
+const axios = require('axios');
+
+const PANEL_URL = 'https://panel.diamondhost.tw';
+const API_KEY = 'dhp_your_secret_api_key';
+const UUID = 'e1b2c3d4';
+
+async function connectToConsole() {
+  try {
+    const response = await axios.get(`${PANEL_URL}/api/client/servers/${UUID}/websocket`, {
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Accept': 'application/json'
+      }
+    });
+
+    const { token, socket } = response.data.data;
+    const ws = new WebSocket(socket, {
+      headers: {
+        'Origin': PANEL_URL
+      }
+    });
+
+    ws.on('open', () => {
+      console.log('Successfully connected to Wings WebSocket!');
+      
+      ws.send(JSON.stringify({
+        event: 'auth',
+        args: [token]
+      }));
+    });
+
+    ws.on('message', (data) => {
+      const payload = JSON.parse(data.toString());
+      
+      switch (payload.event) {
+        case 'auth success':
+          console.log('Authentication successful. Ready to receive events.');
+          break;
+        case 'status':
+          console.log(`Server status changed to: ${payload.args[0]}`);
+          break;
+        case 'console output':
+          console.log(`[Console] ${payload.args[0]}`);
+          break;
+        case 'stats':
+          const stats = JSON.parse(payload.args[0]);
+          console.log(`[Stats] CPU: ${stats.cpu_absolute}%, RAM: ${(stats.memory_bytes / 1024 / 1024).toFixed(2)} MB`);
+          break;
+        case 'token expiring':
+          console.log('Token is expiring. Re-fetching new token...');
+          break;
+      }
+    });
+
+    ws.on('close', () => {
+      console.log('WebSocket connection closed.');
+    });
+
+    ws.on('error', (err) => {
+      console.error('WebSocket Error:', err);
+    });
+
+  } catch (error) {
+    console.error('Failed to connect:', error.message);
+  }
+}
+
+connectToConsole();
+```

@@ -1,0 +1,371 @@
+---
+title: 伺服器管理與擴充
+description: 伺服器控制、檔案、資料庫、備份、排程、網路埠、副使用者，以及 VSCode、子網域、AI 助手等自定義擴充 API。
+icon: Server
+---
+
+# 伺服器管理與擴充 (Server Management & Extensions)
+
+本章節介紹與單一伺服器控制、資源配置、日常維護相關的所有 API 端點。
+
+---
+
+## 基礎伺服器控制
+基礎路徑: `/api/client/servers/{server}`
+
+### 列出所有伺服器
+*   **方法**: `GET`
+*   **端點**: `/api/client`
+*   **描述**: 列出該帳戶可存取的所有伺服器清單與其資源配置。
+
+### 獲取特定伺服器詳細資料
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 獲取 WebSocket 連線憑證
+*   **方法**: `GET`
+*   **端點**: `/websocket`
+*   **描述**: 返回用於連接 Daemon (Wings) 控制台 WebSocket 的憑證與 URL。
+
+### 獲取資源使用率 (資源監控)
+*   **方法**: `GET`
+*   **端點**: `/resources`
+*   **描述**: 即時獲取 CPU、記憶體、硬碟使用量與網路流量。
+
+### 傳送控制台指令 (Command)
+*   **方法**: `POST`
+*   **端點**: `/command`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "command": "say Hello World!"
+    }
+    ```
+
+### 控制伺服器電源 (Power)
+*   **方法**: `POST`
+*   **端點**: `/power`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "signal": "start" // 可選值: start, stop, restart, kill
+    }
+    ```
+
+### 伺服器活動日誌 (Activity Log)
+*   **方法**: `GET`
+*   **端點**: `/activity`
+
+---
+
+## 檔案管理 (Files)
+基礎路徑: `/api/client/servers/{server}/files`
+
+### 列出檔案/目錄
+*   **方法**: `GET`
+*   **端點**: `/list`
+*   **查詢參數**: `directory=/path`
+
+### 獲取目錄大小
+*   **方法**: `GET`
+*   **端點**: `/folder-size`
+
+### 讀取檔案內容
+*   **方法**: `GET`
+*   **端點**: `/contents`
+*   **查詢參數**: `file=/path/to/file`
+
+### 下載檔案 (獲取下載網址)
+*   **方法**: `GET`
+*   **端點**: `/download`
+*   **查詢參數**: `file=/path/to/file`
+
+### 重新命名 / 移動檔案或目錄
+*   **方法**: `PUT`
+*   **端點**: `/rename`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "root": "/",
+      "files": [
+        { "from": "old.txt", "to": "new.txt" }
+      ]
+    }
+    ```
+
+### 複製檔案
+*   **方法**: `POST`
+*   **端點**: `/copy`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "location": "original.txt"
+    }
+    ```
+
+### 寫入檔案內容 (編輯/儲存)
+*   **方法**: `POST`
+*   **端點**: `/write`
+*   **查詢參數**: `file=/path/to/file`
+*   **請求體**: 檔案文字內容。
+
+### 壓縮檔案/資料夾
+*   **方法**: `POST`
+*   **端點**: `/compress`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "root": "/",
+      "files": ["folder1", "file2.txt"]
+    }
+    ```
+
+### 解壓縮檔案
+*   **方法**: `POST`
+*   **端點**: `/decompress`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "root": "/",
+      "file": "archive.tar.gz"
+    }
+    ```
+
+### 刪除檔案/資料夾
+*   **方法**: `POST`
+*   **端點**: `/delete`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "root": "/",
+      "files": ["file.txt", "unwanted-folder"]
+    }
+    ```
+
+### 建立新資料夾
+*   **方法**: `POST`
+*   **端點**: `/create-folder`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "root": "/",
+      "name": "new-folder-name"
+    }
+    ```
+
+### 變更檔案權限 (chmod)
+*   **方法**: `POST`
+*   **端點**: `/chmod`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "root": "/",
+      "files": [
+        { "file": "start.sh", "mode": "0755" }
+      ]
+    }
+    ```
+
+### 從網址拉取/下載檔案 (Remote Pull)
+*   **方法**: `POST`
+*   **端點**: `/pull`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "url": "https://example.com/file.zip",
+      "directory": "/"
+    }
+    ```
+
+### 獲取上傳網址 (Upload)
+*   **方法**: `GET`
+*   **端點**: `/upload`
+*   **描述**: 獲取上傳檔案專用的一次性 Wings 簽名網址。
+
+---
+
+## 資料庫管理 (Databases)
+基礎路徑: `/api/client/servers/{server}/databases`
+
+### 列出資料庫
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 建立資料庫
+*   **方法**: `POST`
+*   **端點**: `/`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "database": "db_name",
+      "remote": "%" // 允許連線的 IP，% 代表所有
+    }
+    ```
+
+### 重設資料庫密碼
+*   **方法**: `POST`
+*   **端點**: `/{database}/rotate-password`
+
+### 刪除資料庫
+*   **方法**: `DELETE`
+*   **端點**: `/{database}`
+
+---
+
+## 排程設定 (Schedules)
+基礎路徑: `/api/client/servers/{server}/schedules`
+
+### 列出排程
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 建立排程
+*   **方法**: `POST`
+*   **端點**: `/`
+
+### 更新排程
+*   **方法**: `POST`
+*   **端點**: `/{schedule}`
+
+### 立即執行排程
+*   **方法**: `POST`
+*   **端點**: `/{schedule}/execute`
+
+### 刪除排程
+*   **方法**: `DELETE`
+*   **端點**: `/{schedule}`
+
+### 新增排程任務 (Tasks)
+*   **方法**: `POST`
+*   **端點**: `/{schedule}/tasks`
+
+### 更新排程任務
+*   **方法**: `POST`
+*   **端點**: `/{schedule}/tasks/{task}`
+
+### 刪除排程任務
+*   **方法**: `DELETE`
+*   **端點**: `/{schedule}/tasks/{task}`
+
+---
+
+## 網路埠管理 (Network Allocations)
+基礎路徑: `/api/client/servers/{server}/network`
+
+### 列出所有分配的連接埠
+*   **方法**: `GET`
+*   **端點**: `/allocations`
+
+### 自動分配新連接埠 (若有額度)
+*   **方法**: `POST`
+*   **端點**: `/allocations`
+
+### 更新連接埠備註
+*   **方法**: `POST`
+*   **端點**: `/allocations/{allocation}`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "notes": "Query Port"
+    }
+    ```
+
+### 設定為主連接埠 (Primary)
+*   **方法**: `POST`
+*   **端點**: `/allocations/{allocation}/primary`
+
+### 刪除/釋放連接埠
+*   **方法**: `DELETE`
+*   **端點**: `/allocations/{allocation}`
+
+---
+
+## 副使用者管理 (Subusers)
+基礎路徑: `/api/client/servers/{server}/users`
+
+### 列出副使用者
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 新增副使用者
+*   **方法**: `POST`
+*   **端點**: `/`
+
+### 更新副使用者權限
+*   **方法**: `POST`
+*   **端點**: `/{user}`
+
+### 刪除副使用者
+*   **方法**: `DELETE`
+*   **端點**: `/{user}`
+
+---
+
+## 備份管理 (Backups)
+基礎路徑: `/api/client/servers/{server}/backups`
+
+### 列出備份
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 建立新備份
+*   **方法**: `POST`
+*   **端點**: `/`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "name": "Manual Backup 1",
+      "ignored_files": "" // 忽略的檔案或路徑清單
+    }
+    ```
+
+### 下載備份 (獲取下載網址)
+*   **方法**: `GET`
+*   **端點**: `/{backup}/download`
+
+### 切換鎖定備份 (鎖定後將無法被自動清理)
+*   **方法**: `POST`
+*   **端點**: `/{backup}/lock`
+
+### 還原備份
+*   **方法**: `POST`
+*   **端點**: `/{backup}/restore`
+
+### 刪除備份
+*   **方法**: `DELETE`
+*   **端點**: `/{backup}`
+
+---
+
+## 啟動參數設定 (Startup)
+基礎路徑: `/api/client/servers/{server}/startup`
+
+### 獲取啟動參數與環境變數
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 修改環境變數值
+*   **方法**: `PUT`
+*   **端點**: `/variable`
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "key": "SERVER_JARFILE",
+      "value": "server.jar"
+    }
+    ```
+
+---
+
+## 自定義與進階擴充端點
+
+### 網路流量分析 (Traffic)
+*   **方法**: `GET`
+*   **端點**: `/api/client/servers/{server}/traffic`
+*   **描述**: 獲取伺服器的進出網路流量數據統計。
+
+### 子網域管理 (Subdomain)
+基礎路徑: `/api/client/servers/{server}/subdomain`
+*   **GET** `/` - 列出伺服器目前綁定的自訂子網域。
+*   **POST** `/create` - 新增一個子網域解析（例如 `myserver.diamondhost.tw`）。
+*   **DELETE** `/delete/{id}` - 移除指定的子網域解析。

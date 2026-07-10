@@ -1,15 +1,186 @@
 ---
 title: 帳戶管理
+description: 個人資料、安全設定、API 金鑰、SSH 金鑰與主題自訂 API。
 icon: UserCog
 ---
 
 # 帳戶管理 (Account Management)
+
 基礎路徑: `/api/client/account`
 
-## 安全性 (2FA & WebAuthn)
-| 方法 | 端點 | 描述 |
-| :--- | :--- | :--- |
-| `GET` | `/webauthn` | 列出已註冊的 WebAuthn 憑證。 |
-| `POST` | `/webauthn/register/options` | 獲取 WebAuthn 註冊挑戰。 |
-| `POST` | `/webauthn/register` | 完成 WebAuthn 註冊。 |
-| `DELETE` | `/webauthn/{id}` | 刪除 WebAuthn 憑證。 |
+提供使用者個人設定、帳戶安全（雙重驗證、WebAuthn）、API金鑰管理、SSH公鑰管理及主題樣式的 API 端點。
+
+---
+
+## 個人資料與設定
+
+### 獲取帳戶資訊
+*   **方法**: `GET`
+*   **端點**: `/`
+*   **描述**: 獲取當前登入使用者的帳戶資訊與權限。
+
+### 更新電子郵件
+*   **方法**: `PUT`
+*   **端點**: `/email`
+*   **描述**: 修改帳戶的電子郵件地址。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "email": "new-email@example.com",
+      "password": "current_password"
+    }
+    ```
+
+### 更新密碼
+*   **方法**: `PUT`
+*   **端點**: `/password`
+*   **描述**: 修改帳戶的登入密碼。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "current_password": "current_password",
+      "password": "new_password",
+      "password_confirmation": "new_password"
+    }
+    ```
+
+### 更新使用者名稱
+*   **方法**: `PUT`
+*   **端點**: `/username`
+*   **描述**: 修改帳戶的使用者名稱 (Username)。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "username": "new_username",
+      "password": "current_password"
+    }
+    ```
+
+### 更新頭像 (Avatar)
+*   **方法**: `POST`
+*   **端點**: `/avatar`
+*   **描述**: 上傳並更新使用者頭像。
+
+### 刪除頭像
+*   **方法**: `DELETE`
+*   **端點**: `/avatar`
+*   **描述**: 移除使用者頭像，恢復為預設頭像。
+
+---
+
+## 帳戶安全性 (2FA & WebAuthn)
+
+### 獲取雙重驗證 (2FA) 資訊
+*   **方法**: `GET`
+*   **端點**: `/two-factor`
+*   **描述**: 獲取雙重驗證的 QR Code 圖片資料與 Secret，用以綁定 Authenticator。
+
+### 啟用雙重驗證
+*   **方法**: `POST`
+*   **端點**: `/two-factor`
+*   **描述**: 輸入驗證碼以啟用雙重驗證。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "code": "123456"
+    }
+    ```
+
+### 停用雙重驗證
+*   **方法**: `POST`
+*   **端點**: `/two-factor/disable` 或 `DELETE` `/two-factor`
+*   **描述**: 輸入密碼以停用帳戶的雙重驗證。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "password": "current_password"
+    }
+    ```
+
+### 列出已註冊的 WebAuthn 憑證
+*   **方法**: `GET`
+*   **端點**: `/webauthn`
+*   **描述**: 列出當前帳戶已綁定的實體密鑰 / 金鑰憑證。
+
+### 獲取 WebAuthn 註冊挑戰 (Options)
+*   **方法**: `POST`
+*   **端點**: `/webauthn/register/options`
+*   **描述**: 獲取用於 WebAuthn 註冊的挑戰資料。
+
+### 完成 WebAuthn 註冊
+*   **方法**: `POST`
+*   **端點**: `/webauthn/register`
+*   **描述**: 提交憑證並完成 WebAuthn 金鑰綁定。
+
+### 刪除 WebAuthn 憑證
+*   **方法**: `DELETE`
+*   **端點**: `/webauthn/{id}`
+*   **描述**: 刪除指定的 WebAuthn 憑證。
+
+---
+
+## 帳戶活動日誌
+
+### 獲取活動日誌
+*   **方法**: `GET`
+*   **端點**: `/activity`
+*   **描述**: 獲取該帳戶近期的所有操作活動紀錄。
+
+---
+
+## API 金鑰管理 (API Keys)
+
+### 列出 API 金鑰
+*   **方法**: `GET`
+*   **端點**: `/api-keys`
+*   **描述**: 列出當前帳戶創建的所有客戶端 API 金鑰。
+
+### 創建 API 金鑰
+*   **方法**: `POST`
+*   **端點**: `/api-keys`
+*   **描述**: 創建一個新的客戶端 API 金鑰。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "description": "My Script Key"
+    }
+    ```
+
+### 刪除 API 金鑰
+*   **方法**: `DELETE`
+*   **端點**: `/api-keys/{identifier}`
+*   **描述**: 註銷並刪除指定的 API 金鑰。
+
+---
+
+## SSH 金鑰管理 (SSH Keys)
+
+### 列出 SSH 金鑰
+*   **方法**: `GET`
+*   **端點**: `/ssh-keys`
+*   **描述**: 列出帳戶中已儲存的所有 SSH 公鑰（用於 SFTP 免密碼登入）。
+
+### 新增 SSH 金鑰
+*   **方法**: `POST`
+*   **端點**: `/ssh-keys`
+*   **描述**: 新增一個 SSH 公鑰。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "name": "My Laptop",
+      "public_key": "ssh-rsa AAAAB3..."
+    }
+    ```
+
+### 刪除 SSH 金鑰
+*   **方法**: `POST`
+*   **端點**: `/ssh-keys/remove`
+*   **描述**: 刪除指定的 SSH 金鑰。
+*   **請求體 (JSON)**:
+    ```json
+    {
+      "fingerprint": "xx:xx:xx..."
+    }
+    ```
+
+

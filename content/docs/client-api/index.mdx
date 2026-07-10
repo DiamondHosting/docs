@@ -1,15 +1,74 @@
 ---
 title: 客戶端 API
-description: 鑽石託管 DiamondHost 的客戶端 API 文件。
+description: 鑽石託管 DiamondHost 的客戶端 API 完整文件，包含原版 Pterodactyl 與自定義擴充端點。
 icon: Code
 ---
 
-# 用戶端 API
+# 客戶端 API (Client API)
 
-所有對用戶端 API 的請求都應以 `/api/client` 開頭。
-所有 API 請求皆以參照 [Pterodactyl API](https://pterodactyl-api-docs.netvpx.com/docs/api/client) 延伸。
-本文檔僅涵蓋了我們修改後的面板中可用的自定義端點。
+歡迎使用鑽石託管 DiamondHost 的客戶端 API 文件。本文件提供了完整的 API 參考指南，整合了**原版 Pterodactyl 的標準端點**以及**鑽石託管特有的客製化擴充端點**，供開發人員、自動化腳本或第三方整合工具使用。
 
-## 驗證
-大多數端點需要有效的 API 金鑰或會話(Session)驗證。
-詳見 [Pterodactyl API文檔](https://pterodactyl-api-docs.netvpx.com/docs/api/client#authentication)
+所有對客戶端 API 的請求都應使用以下基礎路徑：
+
+```http
+https://panel.diamondhost.tw/api/client
+```
+
+---
+
+## 身份驗證 (Authentication)
+
+所有的 API 請求都需要透過 **Bearer Token** 進行身份驗證。您可以在面板的「帳戶設定」->「API 金鑰」中生成您的 API Key。
+
+在發送 HTTP 請求時，請於 Header 中附帶您的 API 金鑰：
+
+```http
+Authorization: Bearer <your_api_key_here>
+Accept: application/json
+Content-Type: application/json
+```
+
+> [!WARNING]
+> 請妥善保管您的 API 金鑰。任何擁有此金鑰的人都可以對您的帳戶與伺服器進行完整的讀寫操作，包含刪除備份、控制伺服器開關、修改檔案等。
+
+---
+
+## 目錄導覽
+
+請透過側邊欄或下方連結訪問不同類別的 API 詳細文檔：
+
+*   **[帳戶管理](account)**：個人資料變更、2FA 驗證、SSH 金鑰、WebAuthn。
+*   **[伺服器管理與擴充](server-features)**：伺服器資訊、開關機控制、資料庫、檔案管理、排程、網路埠、副使用者、備份、子網域、VSCode 等。
+*   **[Minecraft 專用 API](minecraft)**：模組包管理器、MCLogs 上傳分析、Minecraft 版本切換器、玩家管理（白名單/OP/Bans等）。
+
+---
+
+## 錯誤處理與響應 (Error Handling)
+
+API 遵循標準的 HTTP 狀態碼：
+
+| 狀態碼 | 描述 | 原因 |
+| :--- | :--- | :--- |
+| `200 OK` | 請求成功 | 成功獲取資料或執行操作 |
+| `201 Created` | 建立成功 | 成功建立資源（如建立備份或排程） |
+| `204 No Content` | 執行成功 | 成功刪除或更新資源且無回傳內容 |
+| `400 Bad Request` | 請求錯誤 | 參數格式錯誤或缺少必要欄位 |
+| `401 Unauthorized` | 未驗證 | API 金鑰無效或已過期 |
+| `403 Forbidden` | 權限不足 | 試圖訪問無權限的伺服器或操作 |
+| `404 Not Found` | 找不到資源 | 伺服器不存在或找不到指定的資源 |
+| `429 Too Many Requests` | 請求速率限制 | 超過 API 的存取頻率限制 |
+| `500 Internal Server Error` | 系統錯誤 | 面板內部發生未預期錯誤 |
+
+錯誤的回傳格式通常為：
+
+```json
+{
+  "errors": [
+    {
+      "code": "NotFoundHttpException",
+      "status": "404",
+      "detail": "The requested resource could not be found."
+    }
+  ]
+}
+```

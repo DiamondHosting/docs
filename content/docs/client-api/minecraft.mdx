@@ -1,57 +1,182 @@
 ---
 title: Minecraft 專用
+description: 針對 Minecraft 伺服器提供的模組包管理器、MCLogs、版本切換器、玩家管理與配置檔 API。
 icon: Gamepad2
 ---
 
-# Minecraft 專用 (Minecraft Specific)
-路徑: `/api/client/servers/{server}`
+# Minecraft 專用 API (Minecraft Specific)
+
+針對 Minecraft 類型伺服器，鑽石託管提供了多項深度整合的客製化擴充端點。
+
+---
 
 ## 模組包管理器 (Modpack Manager)
-基礎路徑: `/api/client/extensions/modpackmanager/servers/{server}`
+基礎路徑: `/api/client/servers/{server}/minecraft-modpacks`
 
-| 方法 | 端點 | 描述 |
-| :--- | :--- | :--- |
-| `GET` | `/minecraft-modpacks` | 列出模組包 (Modpacks)。 |
-| `GET` | `/minecraft-modpacks/versions` | 列出模組包版本。 |
-| `POST` | `/minecraft-modpacks/install` | 安裝模組包。 |
+### 獲取可用模組包列表
+*   **方法**: `GET`
+*   **端點**: `/`
+*   **描述**: 查詢支援的 Modpack 模組包。
 
-## MCLogs 管理器 (MCLogs Manager)
-基礎路徑: `/api/client/extensions/mclogsmanager/servers/{server}`
+### 獲取模組包版本
+*   **方法**: `GET`
+*   **端點**: `/versions`
+*   **描述**: 列出特定模組包的所有可用版本。
 
-| 方法 | 端點 | 描述 |
-| :--- | :--- | :--- |
-| `GET` | `/mclogs` | 查看 MCLogs。 |
+### 檢查安裝狀態
+*   **方法**: `GET`
+*   **端點**: `/status`
+*   **描述**: 檢查當前伺服器的模組包安裝狀態與進度。
+
+### 安裝模組包
+*   **方法**: `POST`
+*   **端點**: `/install`
+*   **描述**: 執行下載與安裝指定的模組包至伺服器。
+
+---
+
+## MCLogs 日誌管理器 (MCLogs Manager)
+基礎路徑: `/api/client/servers/{server}/mclogs`
+
+### 查看/列表上傳日誌
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 獲取配置設定
+*   **方法**: `GET`
+*   **端點**: `/settings`
+
+### 掃描日誌檔
+*   **方法**: `GET`
+*   **端點**: `/scan`
+*   **描述**: 自動掃描並找出崩潰日誌中的常見錯誤與建議。
+
+### 上傳日誌至 mclo.gs
+*   **方法**: `POST`
+*   **端點**: `/upload`
+*   **描述**: 將 Minecraft 伺服器日誌一鍵上傳至 mclo.gs 服務並生成檢視連結。
+
+### 上傳指定日誌檔案
+*   **方法**: `POST`
+*   **端點**: `/upload-file`
+
+### 刪除已儲存的日誌記錄
+*   **方法**: `DELETE`
+*   **端點**: `/{log}`
+
+---
 
 ## 版本切換器 (Version Changer)
 基礎路徑: `/api/client/extensions/versionchanger/servers/{server}`
 
-| 方法 | 端點 | 描述 |
-| :--- | :--- | :--- |
-| `GET` | `/installed` | 獲取當前安裝的版本資訊。 |
-| `POST` | `/install` | 安裝特定版本。 |
-| `GET` | `/install/status/{id}` | 檢查安裝狀態。 |
-| `GET` | `/install/latest` | 獲取最新可用版本。 |
-| `GET` | `/types` | 獲取可用版本類型 (Vanilla, Paper 等)。 |
-| `GET` | `/types/{type}` | 獲取某一類型的版本列表。 |
-| `GET` | `/types/{type}/{version}` | 獲取特定版本的建置 (Builds)。 |
+### 獲取當前安裝的版本資訊
+*   **方法**: `GET`
+*   **端點**: `/installed`
 
-## Minecraft 玩家管理器 (Minecraft Player Manager)
+### 執行安裝新版本
+*   **方法**: `POST`
+*   **端點**: `/install`
+*   **描述**: 變更並下載指定的 Minecraft 伺服器版本（如升級為 Paper 1.20.4）。
+
+### 檢查安裝狀態
+*   **方法**: `GET`
+*   **端點**: `/install/status/{installation}`
+
+### 獲取最新可用版本
+*   **方法**: `GET`
+*   **端點**: `/install/latest`
+
+### 獲取可用版本類型
+*   **方法**: `GET`
+*   **端點**: `/types`
+*   **描述**: 列出可用核心種類（如 Vanilla, Paper, Purpur, Forge, Fabric, BungeeCord 等）。
+
+### 獲取特定核心的版本列表
+*   **方法**: `GET`
+*   **端點**: `/types/{type}`
+
+### 獲取特定版本的建置 (Builds)
+*   **方法**: `GET`
+*   **端點**: `/types/{type}/{_version}`
+
+---
+
+## 玩家管理器 (Player Manager)
 基礎路徑: `/api/client/extensions/minecraftplayermanager/servers/{server}`
 
-| 方法 | 端點 | 描述 |
-| :--- | :--- | :--- |
-| `GET` | `/` | 獲取線上玩家。 |
-| `GET` | `/skin` | 獲取玩家皮膚資訊。 |
-| `GET` | `/offline` | 獲取離線玩家。 |
-| `GET` | `/stats/{uuid}` | 獲取玩家統計數據。 |
-| `POST` | `/whitelist/status` | 切換白名單狀態 (setwhitelist)。 |
-| `PUT` | `/whitelist` | 新增玩家到白名單。 |
-| `DELETE` | `/whitelist` | 從白名單移除玩家。 |
-| `PUT` | `/op` | 給予玩家 OP 權限。 |
-| `DELETE` | `/op` | 取消玩家 OP 權限。 |
-| `PUT` | `/ban` | 封鎖玩家。 |
-| `DELETE` | `/ban` | 解除封鎖玩家。 |
-| `PUT` | `/ban-ip` | 封鎖 IP。 |
-| `POST` | `/kick` | 踢出玩家。 |
-| `POST` | `/kill` | 殺死玩家。 |
-| `POST` | `/clear` | 清空玩家背包。 |
+### 獲取當前線上玩家
+*   **方法**: `GET`
+*   **端點**: `/`
+
+### 獲取玩家皮膚
+*   **方法**: `GET`
+*   **端點**: `/skin`
+
+### 獲取離線與歷史玩家記錄
+*   **方法**: `GET`
+*   **端點**: `/offline`
+
+### 獲取玩家統計數據
+*   **方法**: `GET`
+*   **端點**: `/stats/{uuid}`
+
+### 切換白名單開關
+*   **方法**: `POST`
+*   **端點**: `/whitelist/status`
+
+### 新增玩家至白名單
+*   **方法**: `PUT`
+*   **端點**: `/whitelist`
+
+### 自白名單移除玩家
+*   **方法**: `DELETE`
+*   **端點**: `/whitelist`
+
+### 給予 OP 權限
+*   **方法**: `PUT`
+*   **端點**: `/op`
+
+### 取消 OP 權限
+*   **方法**: `DELETE`
+*   **端點**: `/op`
+
+### 封鎖玩家 (Ban)
+*   **方法**: `PUT`
+*   **端點**: `/ban`
+
+### 解除封鎖玩家 (Unban)
+*   **方法**: `DELETE`
+*   **端點**: `/ban`
+
+### 封鎖特定 IP
+*   **方法**: `PUT`
+*   **端點**: `/ban-ip`
+
+### 解除封鎖 IP
+*   **方法**: `DELETE`
+*   **端點**: `/ban-ip`
+
+### 封鎖玩家並同時封鎖其 IP
+*   **方法**: `PUT`
+*   **端點**: `/ban-ip-player`
+
+### 踢出玩家
+*   **方法**: `POST`
+*   **端點**: `/kick`
+
+### 殺死玩家
+*   **方法**: `POST`
+*   **端點**: `/kill`
+
+### 清空玩家背包
+*   **方法**: `POST`
+*   **端點**: `/clear`
+
+### 清除玩家資料 (Wipe)
+*   **方法**: `POST`
+*   **端點**: `/wipe`
+
+### 設定玩家特定屬性值
+*   **方法**: `POST`
+*   **端點**: `/set-stat`
+

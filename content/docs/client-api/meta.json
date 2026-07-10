@@ -2,6 +2,7 @@
     "title": "API指南",
     "pages": [
         "index",
+        "developer-guide",
         "account",
         "server-features",
         "minecraft"
