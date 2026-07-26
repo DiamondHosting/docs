@@ -1,0 +1,49 @@
+---
+title: 伺服器管理
+description: 查詢伺服器、監控資源、操作電源與傳送控制台指令。
+icon: Server
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client</ApiBasePath>
+
+## 伺服器與資源
+
+<ApiEndpoint method="GET" path="/" title="列出可存取的伺服器" description="回傳目前 API 金鑰可以存取的所有伺服器與基本資源配置。" />
+
+<ApiEndpoint method="GET" path="/servers/{server}" title="取得伺服器詳細資料" description="使用伺服器識別碼取得名稱、節點、限制與功能設定。" />
+
+<ApiEndpoint method="GET" path="/servers/{server}/resources" title="取得即時資源使用量" description="回傳 CPU、記憶體、硬碟、網路流量與電源狀態。" />
+
+<ApiEndpoint method="GET" path="/servers/{server}/websocket" title="取得 WebSocket 憑證" description="回傳具時效性的 Wings WebSocket URL 與驗證 Token。" />
+
+## 控制操作
+
+<ApiEndpoint method="POST" path="/servers/{server}/command" title="傳送控制台指令" description="向執行中的伺服器傳送一行控制台指令。">
+
+```json
+{ "command": "say Hello World!" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/servers/{server}/power" title="切換電源狀態" description="signal 可使用 start、stop、restart 或 kill。">
+
+```json
+{ "signal": "restart" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="GET" path="/servers/{server}/activity" title="取得活動日誌" description="列出伺服器近期操作與事件紀錄。" />
+
+## 啟動設定
+
+<ApiEndpoint method="GET" path="/servers/{server}/startup" title="取得啟動設定" description="回傳啟動命令、Docker 映像與可編輯環境變數。" />
+
+<ApiEndpoint method="PUT" path="/servers/{server}/startup/variable" title="更新環境變數" description="更新一個允許使用者編輯的啟動變數。">
+
+```json
+{ "key": "SERVER_JARFILE", "value": "server.jar" }
+```
+
+</ApiEndpoint>

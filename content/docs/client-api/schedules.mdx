@@ -1,0 +1,75 @@
+---
+title: 排程任務
+description: 建立 Cron 排程並管理其中的指令、電源與備份任務。
+icon: CalendarClock
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/schedules</ApiBasePath>
+
+## 排程
+
+<ApiEndpoint method="GET" path="/" title="列出排程" description="回傳所有排程、Cron 設定、啟用狀態與任務。" />
+<ApiEndpoint method="POST" path="/" title="建立排程" description="以名稱和 Cron 欄位建立新排程。">
+
+```json
+{
+  "name": "Daily Backup",
+  "minute": "0",
+  "hour": "3",
+  "day_of_month": "*",
+  "month": "*",
+  "day_of_week": "*",
+  "is_active": true,
+  "only_when_online": false
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/{schedule}" title="更新排程" description="修改名稱、Cron 規則或啟用狀態。">
+
+```json
+{
+  "name": "Nightly Backup",
+  "minute": "0",
+  "hour": "2",
+  "day_of_month": "*",
+  "month": "*",
+  "day_of_week": "*",
+  "is_active": true,
+  "only_when_online": false
+}
+```
+
+</ApiEndpoint>
+<ApiEndpoint method="POST" path="/{schedule}/execute" title="立即執行" description="不等待下一個 Cron 時間，立即觸發排程。" />
+<ApiEndpoint method="DELETE" path="/{schedule}" title="刪除排程" description="刪除排程與其所有任務。" />
+
+## 任務
+
+<ApiEndpoint method="POST" path="/{schedule}/tasks" title="新增任務" description="加入指令、電源操作或備份任務，並設定延遲秒數。">
+
+```json
+{
+  "action": "command",
+  "payload": "say Scheduled restart in 5 minutes",
+  "time_offset": 0,
+  "continue_on_failure": false
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/{schedule}/tasks/{task}" title="更新任務" description="調整任務內容、延遲或失敗後繼續設定。">
+
+```json
+{
+  "action": "power",
+  "payload": "restart",
+  "time_offset": 300,
+  "continue_on_failure": false
+}
+```
+
+</ApiEndpoint>
+<ApiEndpoint method="DELETE" path="/{schedule}/tasks/{task}" title="刪除任務" description="從排程中移除指定任務。" />

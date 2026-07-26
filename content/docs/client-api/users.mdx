@@ -1,0 +1,31 @@
+---
+title: 副使用者管理
+description: 邀請成員、管理伺服器權限與移除副使用者。
+icon: Users
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/users</ApiBasePath>
+
+<ApiEndpoint method="GET" path="/" title="列出副使用者" description="回傳所有副使用者及其目前擁有的權限。" />
+
+<ApiEndpoint method="POST" path="/" title="新增副使用者" description="以電子郵件邀請使用者並授予指定權限。">
+
+```json
+{
+  "email": "developer@example.com",
+  "permissions": ["control.console", "control.start", "file.read"]
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/{user}" title="更新權限" description="以新的 permissions 陣列取代副使用者目前權限。">
+
+```json
+{
+  "permissions": ["control.console", "control.start", "control.stop", "file.read"]
+}
+```
+
+</ApiEndpoint>
+<ApiEndpoint method="DELETE" path="/{user}" title="移除副使用者" description="撤銷指定使用者對伺服器的所有存取權。" />

@@ -1,0 +1,15 @@
+---
+title: 流量與子網域
+description: 查詢伺服器流量並管理子網域與 DNS 綁定。
+icon: Globe2
+---
+
+## 流量分析
+
+<ApiEndpoint method="GET" path="/api/client/servers/{server}/traffic" title="取得流量統計" description="回傳伺服器進出站網路流量的時間序列資料。" />
+
+## 子網域
+
+<ApiEndpoint method="GET" path="/api/client/servers/{server}/subdomain" title="列出子網域" description="列出目前綁定至伺服器的子網域。" />
+<ApiEndpoint method="POST" path="/api/client/servers/{server}/subdomain/create" title="建立子網域" description="建立新的子網域解析並綁定伺服器連接埠。" />
+<ApiEndpoint method="DELETE" path="/api/client/servers/{server}/subdomain/delete/{id}" title="刪除子網域" description="移除指定子網域及其 DNS 解析。" />

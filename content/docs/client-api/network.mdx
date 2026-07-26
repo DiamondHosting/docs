@@ -1,0 +1,21 @@
+---
+title: 網路管理
+description: 管理伺服器連接埠分配、主連接埠與備註。
+icon: Network
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/network</ApiBasePath>
+
+<ApiEndpoint method="GET" path="/allocations" title="列出連接埠" description="回傳 IP、連接埠、備註與主連接埠狀態。" />
+<ApiEndpoint method="POST" path="/allocations" title="自動分配連接埠" description="在帳戶與節點額度允許時分配一個新連接埠。" />
+
+<ApiEndpoint method="POST" path="/allocations/{allocation}" title="更新連接埠備註" description="設定方便辨識用途的備註。">
+
+```json
+{ "notes": "Query Port" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/allocations/{allocation}/primary" title="設為主連接埠" description="將指定分配設為伺服器主要連線位址。" />
+<ApiEndpoint method="DELETE" path="/allocations/{allocation}" title="釋放連接埠" description="移除非主要的連接埠分配。" />

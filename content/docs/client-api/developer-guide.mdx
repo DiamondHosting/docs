@@ -8,8 +8,6 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
-# 開發者集成與 WebSocket 指南
-
 本指南專為希望基於鑽石託管 API 進行二次開發的程式設計師與系統整合人員設計。我們將在此介紹基本的 API 調用流程、程式範例以及最核心的**控制台 WebSocket 即時雙向連線機制**。
 
 ---
@@ -172,7 +170,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 ```json
 {
   "event": "auth",
-  "args": ["eyJhbGciOi..."] // 剛剛取得的 Token
+  "args": ["eyJhbGciOi..."]
 }
 ```
 Wings 驗證成功後將會回傳驗證成功的通知，並開始向您推播事件。

@@ -1,6 +1,6 @@
 ---
 title: 伺服器管理與擴充
-description: 伺服器控制、檔案、資料庫、備份、排程、網路埠、副使用者，以及 VSCode、子網域、AI 助手等自定義擴充 API。
+description: 伺服器控制、檔案、資料庫、備份、排程、網路埠、副使用者、子網域與自動化 API 完整參考。
 icon: Server
 ---
 
@@ -48,7 +48,7 @@ icon: Server
 *   **請求體 (JSON)**:
     ```json
     {
-      "signal": "start" // 可選值: start, stop, restart, kill
+      "signal": "start"
     }
     ```
 
@@ -198,7 +198,7 @@ icon: Server
     ```json
     {
       "database": "db_name",
-      "remote": "%" // 允許連線的 IP，% 代表所有
+      "remote": "%"
     }
     ```
 
@@ -315,7 +315,8 @@ icon: Server
     ```json
     {
       "name": "Manual Backup 1",
-      "ignored_files": "" // 忽略的檔案或路徑清單
+      "ignored": "cache\nlogs",
+      "is_locked": false
     }
     ```
 

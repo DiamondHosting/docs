@@ -1,0 +1,32 @@
+---
+title: 備份管理
+description: 建立、鎖定、下載、還原與刪除伺服器備份。
+icon: Archive
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/backups</ApiBasePath>
+
+<ApiEndpoint method="GET" path="/" title="列出備份" description="回傳所有備份的狀態、大小、校驗值與建立時間。" />
+
+<ApiEndpoint method="POST" path="/" title="建立備份" description="建立新的伺服器備份，可指定名稱與忽略路徑。">
+
+```json
+{
+  "name": "Before update",
+  "ignored": "cache\nlogs",
+  "is_locked": false
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="GET" path="/{backup}/download" title="取得下載 URL" description="產生具時效性的備份下載網址。" />
+<ApiEndpoint method="POST" path="/{backup}/lock" title="切換備份鎖定" description="鎖定後可避免備份遭到一般刪除或自動清理。" />
+<ApiEndpoint method="POST" path="/{backup}/restore" title="還原備份" description="以備份內容覆寫伺服器檔案，可選擇是否清除既有檔案。">
+
+```json
+{ "truncate": true }
+```
+
+</ApiEndpoint>
+<ApiEndpoint method="DELETE" path="/{backup}" title="刪除備份" description="永久刪除未鎖定的備份。" />

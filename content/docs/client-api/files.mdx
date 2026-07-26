@@ -1,0 +1,101 @@
+---
+title: 檔案管理
+description: 瀏覽、讀寫、移動、壓縮與上下載伺服器檔案。
+icon: Files
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/files</ApiBasePath>
+
+## 瀏覽與內容
+
+<ApiEndpoint method="GET" path="/list?directory={path}" title="列出目錄內容" description="列出指定路徑內的檔案與子目錄。" />
+<ApiEndpoint method="GET" path="/contents?file={path}" title="讀取檔案" description="取得指定文字檔案的原始內容。" />
+<ApiEndpoint method="POST" path="/write?file=server.properties" title="寫入檔案" description="以純文字請求本文覆寫指定檔案內容。" requestBodyType="text">
+
+```text
+motd=DiamondHost Server
+max-players=20
+```
+
+</ApiEndpoint>
+<ApiEndpoint method="GET" path="/folder-size?directory={path}" title="取得目錄大小" description="計算指定目錄使用的空間。" />
+
+## 檔案操作
+
+<ApiEndpoint method="PUT" path="/rename" title="重新命名或移動" description="以 root 與 files 陣列批次重新命名檔案。">
+
+```json
+{
+  "root": "/",
+  "files": [{ "from": "old-name.txt", "to": "new-name.txt" }]
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/copy" title="複製檔案" description="在同一目錄建立檔案副本。">
+
+```json
+{ "location": "/config.yml" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/create-folder" title="建立目錄" description="在指定 root 下建立新目錄。">
+
+```json
+{ "root": "/", "name": "plugins" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/delete" title="刪除檔案或目錄" description="批次刪除指定路徑；操作無法復原。">
+
+```json
+{ "root": "/", "files": ["old-file.txt", "temp-folder"] }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/chmod" title="修改檔案權限" description="更新一或多個檔案的 Unix mode。">
+
+```json
+{
+  "root": "/",
+  "files": [{ "file": "start.sh", "mode": "755" }]
+}
+```
+
+</ApiEndpoint>
+
+## 傳輸與封裝
+
+<ApiEndpoint method="GET" path="/upload" title="取得上傳 URL" description="產生具時效性的一次性 Wings 上傳網址。" />
+<ApiEndpoint method="GET" path="/download?file={path}" title="取得下載 URL" description="產生指定檔案的簽名下載網址。" />
+<ApiEndpoint method="POST" path="/pull" title="從遠端 URL 拉取檔案" description="由伺服器節點直接下載遠端檔案。">
+
+```json
+{
+  "url": "https://example.com/server.jar",
+  "directory": "/",
+  "filename": "server.jar"
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/compress" title="建立壓縮檔" description="將一或多個檔案封裝為壓縮檔。">
+
+```json
+{ "root": "/", "files": ["world", "plugins"] }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/decompress" title="解壓縮檔案" description="將支援的封裝格式解壓至指定目錄。">
+
+```json
+{ "root": "/", "file": "backup.zip" }
+```
+
+</ApiEndpoint>

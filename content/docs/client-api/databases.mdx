@@ -1,0 +1,20 @@
+---
+title: 資料庫管理
+description: 建立、查詢與維護伺服器資料庫。
+icon: Database
+---
+
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/databases</ApiBasePath>
+
+<ApiEndpoint method="GET" path="/" title="列出資料庫" description="回傳伺服器的資料庫、主機、連線埠與使用者名稱。" />
+
+<ApiEndpoint method="POST" path="/" title="建立資料庫" description="database 是資料庫名稱，remote 用於限制可連線來源。">
+
+```json
+{ "database": "app_data", "remote": "%" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/{database}/rotate-password" title="重設資料庫密碼" description="產生新密碼並立即使舊密碼失效。" />
+<ApiEndpoint method="DELETE" path="/{database}" title="刪除資料庫" description="永久刪除資料庫及其中所有資料。" />

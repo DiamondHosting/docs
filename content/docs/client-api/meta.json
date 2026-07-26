@@ -1,11 +1,21 @@
 {
-    "title": "API指南",
+    "title": "開發者 API",
     "pages": [
+        "---開始---",
         "index",
         "developer-guide",
+        "---核心資源---",
         "account",
-        "server-features",
-        "minecraft"
+        "servers",
+        "minecraft",
+        "files",
+        "databases",
+        "backups",
+        "---自動化與存取---",
+        "schedules",
+        "network",
+        "extensions",
+        "users"
     ],
     "icon": "Code"
 }

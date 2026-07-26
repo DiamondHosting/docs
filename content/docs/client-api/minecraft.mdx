@@ -1,182 +1,218 @@
 ---
 title: Minecraft 專用
-description: 針對 Minecraft 伺服器提供的模組包管理器、MCLogs、版本切換器、玩家管理與配置檔 API。
+description: 模組包、MCLogs、版本切換與玩家管理 API。
 icon: Gamepad2
 ---
 
-# Minecraft 專用 API (Minecraft Specific)
+## 模組包管理
 
-針對 Minecraft 類型伺服器，鑽石託管提供了多項深度整合的客製化擴充端點。
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/minecraft-modpacks</ApiBasePath>
 
----
+<ApiEndpoint method="GET" path="/?provider=modrinth&page=1&page_size=20&search_query=vanilla" title="搜尋模組包" description="依供應商、頁碼與關鍵字搜尋可安裝的模組包。" />
+<ApiEndpoint method="GET" path="/versions?provider=modrinth&modpack_id=AANobbMI" title="取得模組包版本" description="列出指定供應商與模組包的可用版本。" />
+<ApiEndpoint method="GET" path="/status" title="取得安裝狀態" description="回傳目前安裝步驟、錯誤與完成狀態。" />
 
-## 模組包管理器 (Modpack Manager)
-基礎路徑: `/api/client/servers/{server}/minecraft-modpacks`
+<ApiEndpoint method="POST" path="/install" title="安裝模組包" description="下載指定版本；可選擇是否先刪除既有伺服器檔案。">
 
-### 獲取可用模組包列表
-*   **方法**: `GET`
-*   **端點**: `/`
-*   **描述**: 查詢支援的 Modpack 模組包。
+```json
+{
+  "provider": "modrinth",
+  "modpack_id": "AANobbMI",
+  "modpack_version_id": "3.0.2",
+  "delete_server_files": false
+}
+```
 
-### 獲取模組包版本
-*   **方法**: `GET`
-*   **端點**: `/versions`
-*   **描述**: 列出特定模組包的所有可用版本。
+</ApiEndpoint>
 
-### 檢查安裝狀態
-*   **方法**: `GET`
-*   **端點**: `/status`
-*   **描述**: 檢查當前伺服器的模組包安裝狀態與進度。
+## MCLogs 日誌管理
 
-### 安裝模組包
-*   **方法**: `POST`
-*   **端點**: `/install`
-*   **描述**: 執行下載與安裝指定的模組包至伺服器。
+<ApiBasePath>https://panel.diamondhost.tw/api/client/servers/{server}/mclogs</ApiBasePath>
 
----
+<ApiEndpoint method="GET" path="/" title="列出已上傳日誌" description="列出伺服器先前上傳至 mclo.gs 的日誌記錄。" />
+<ApiEndpoint method="GET" path="/settings" title="取得日誌設定" description="回傳每台伺服器可保留的日誌數量上限。" />
+<ApiEndpoint method="GET" path="/scan" title="掃描日誌檔案" description="掃描伺服器內可供上傳的日誌檔案。" />
 
-## MCLogs 日誌管理器 (MCLogs Manager)
-基礎路徑: `/api/client/servers/{server}/mclogs`
+<ApiEndpoint method="POST" path="/upload" title="上傳日誌內容" description="將文字內容上傳至 mclo.gs，log_type 為選填分類。">
 
-### 查看/列表上傳日誌
-*   **方法**: `GET`
-*   **端點**: `/`
+```json
+{
+  "content": "[Server thread/INFO]: Done (2.314s)!",
+  "log_type": "latest"
+}
+```
 
-### 獲取配置設定
-*   **方法**: `GET`
-*   **端點**: `/settings`
+</ApiEndpoint>
 
-### 掃描日誌檔
-*   **方法**: `GET`
-*   **端點**: `/scan`
-*   **描述**: 自動掃描並找出崩潰日誌中的常見錯誤與建議。
+<ApiEndpoint method="POST" path="/upload-file" title="上傳指定日誌檔" description="讀取伺服器內指定路徑的日誌並上傳至 mclo.gs。">
 
-### 上傳日誌至 mclo.gs
-*   **方法**: `POST`
-*   **端點**: `/upload`
-*   **描述**: 將 Minecraft 伺服器日誌一鍵上傳至 mclo.gs 服務並生成檢視連結。
+```json
+{ "file_path": "/logs/latest.log" }
+```
 
-### 上傳指定日誌檔案
-*   **方法**: `POST`
-*   **端點**: `/upload-file`
+</ApiEndpoint>
 
-### 刪除已儲存的日誌記錄
-*   **方法**: `DELETE`
-*   **端點**: `/{log}`
+<ApiEndpoint method="DELETE" path="/{log}" title="刪除日誌記錄" description="刪除指定的日誌上傳記錄。" />
 
----
+## 版本切換
 
-## 版本切換器 (Version Changer)
-基礎路徑: `/api/client/extensions/versionchanger/servers/{server}`
+<ApiBasePath>https://panel.diamondhost.tw/api/client/extensions/versionchanger/servers/{server}</ApiBasePath>
 
-### 獲取當前安裝的版本資訊
-*   **方法**: `GET`
-*   **端點**: `/installed`
+<ApiEndpoint method="GET" path="/installed" title="取得已安裝版本" description="回傳目前核心類型、版本與 build 資訊。" />
 
-### 執行安裝新版本
-*   **方法**: `POST`
-*   **端點**: `/install`
-*   **描述**: 變更並下載指定的 Minecraft 伺服器版本（如升級為 Paper 1.20.4）。
+<ApiEndpoint method="POST" path="/install" title="安裝新版本" description="使用 build ID 安裝版本，並確認 EULA 與檔案處理方式。">
 
-### 檢查安裝狀態
-*   **方法**: `GET`
-*   **端點**: `/install/status/{installation}`
+```json
+{
+  "build": 123,
+  "delete_files": false,
+  "accept_eula": true
+}
+```
 
-### 獲取最新可用版本
-*   **方法**: `GET`
-*   **端點**: `/install/latest`
+</ApiEndpoint>
 
-### 獲取可用版本類型
-*   **方法**: `GET`
-*   **端點**: `/types`
-*   **描述**: 列出可用核心種類（如 Vanilla, Paper, Purpur, Forge, Fabric, BungeeCord 等）。
+<ApiEndpoint method="GET" path="/install/status/{installation}" title="取得版本安裝狀態" description="以 installation ID 查詢安裝進度。" />
+<ApiEndpoint method="GET" path="/install/latest" title="取得最近安裝記錄" description="取得最近一次版本安裝工作。" />
+<ApiEndpoint method="GET" path="/types" title="列出核心類型" description="列出 Vanilla、Paper、Purpur、Forge、Fabric 等可用核心。" />
+<ApiEndpoint method="GET" path="/types/{type}" title="列出核心版本" description="列出指定核心類型的可用版本。" />
+<ApiEndpoint method="GET" path="/types/{type}/{version}" title="列出版本 Builds" description="列出指定核心版本的可用 build。" />
 
-### 獲取特定核心的版本列表
-*   **方法**: `GET`
-*   **端點**: `/types/{type}`
+## 玩家管理
 
-### 獲取特定版本的建置 (Builds)
-*   **方法**: `GET`
-*   **端點**: `/types/{type}/{_version}`
+<ApiBasePath>https://panel.diamondhost.tw/api/client/extensions/minecraftplayermanager/servers/{server}</ApiBasePath>
 
----
+<ApiEndpoint method="GET" path="/" title="取得玩家與權限狀態" description="回傳線上玩家、OP、白名單與封鎖清單。" />
+<ApiEndpoint method="GET" path="/skin" title="取得玩家皮膚頁面" description="回傳玩家管理器使用的皮膚 HTML。" />
+<ApiEndpoint method="GET" path="/offline" title="列出離線玩家" description="從世界玩家資料中列出目前離線的玩家。" />
+<ApiEndpoint method="GET" path="/stats/{uuid}" title="取得玩家資料" description="取得指定 UUID 的統計與 NBT 玩家資料。" />
 
-## 玩家管理器 (Player Manager)
-基礎路徑: `/api/client/extensions/minecraftplayermanager/servers/{server}`
+<ApiEndpoint method="POST" path="/whitelist/status" title="切換白名單" description="啟用或停用伺服器白名單。">
 
-### 獲取當前線上玩家
-*   **方法**: `GET`
-*   **端點**: `/`
+```json
+{ "enabled": true }
+```
 
-### 獲取玩家皮膚
-*   **方法**: `GET`
-*   **端點**: `/skin`
+</ApiEndpoint>
 
-### 獲取離線與歷史玩家記錄
-*   **方法**: `GET`
-*   **端點**: `/offline`
+<ApiEndpoint method="PUT" path="/whitelist" title="加入白名單" description="依 Minecraft 玩家名稱加入白名單。">
 
-### 獲取玩家統計數據
-*   **方法**: `GET`
-*   **端點**: `/stats/{uuid}`
+```json
+{ "name": "Steve" }
+```
 
-### 切換白名單開關
-*   **方法**: `POST`
-*   **端點**: `/whitelist/status`
+</ApiEndpoint>
 
-### 新增玩家至白名單
-*   **方法**: `PUT`
-*   **端點**: `/whitelist`
+<ApiEndpoint method="DELETE" path="/whitelist" title="移出白名單" description="依玩家 UUID 從白名單移除。">
 
-### 自白名單移除玩家
-*   **方法**: `DELETE`
-*   **端點**: `/whitelist`
+```json
+{ "uuid": "8667ba71-b85a-4004-af54-457a9734eed7" }
+```
 
-### 給予 OP 權限
-*   **方法**: `PUT`
-*   **端點**: `/op`
+</ApiEndpoint>
 
-### 取消 OP 權限
-*   **方法**: `DELETE`
-*   **端點**: `/op`
+<ApiEndpoint method="PUT" path="/op" title="授予 OP" description="依玩家名稱授予 OP 權限。">
 
-### 封鎖玩家 (Ban)
-*   **方法**: `PUT`
-*   **端點**: `/ban`
+```json
+{ "name": "Steve" }
+```
 
-### 解除封鎖玩家 (Unban)
-*   **方法**: `DELETE`
-*   **端點**: `/ban`
+</ApiEndpoint>
 
-### 封鎖特定 IP
-*   **方法**: `PUT`
-*   **端點**: `/ban-ip`
+<ApiEndpoint method="DELETE" path="/op" title="移除 OP" description="依玩家 UUID 移除 OP 權限。">
 
-### 解除封鎖 IP
-*   **方法**: `DELETE`
-*   **端點**: `/ban-ip`
+```json
+{ "uuid": "8667ba71-b85a-4004-af54-457a9734eed7" }
+```
 
-### 封鎖玩家並同時封鎖其 IP
-*   **方法**: `PUT`
-*   **端點**: `/ban-ip-player`
+</ApiEndpoint>
 
-### 踢出玩家
-*   **方法**: `POST`
-*   **端點**: `/kick`
+<ApiEndpoint method="PUT" path="/ban" title="封鎖玩家" description="依玩家名稱封鎖並記錄原因。">
 
-### 殺死玩家
-*   **方法**: `POST`
-*   **端點**: `/kill`
+```json
+{ "name": "Steve", "reason": "Griefing" }
+```
 
-### 清空玩家背包
-*   **方法**: `POST`
-*   **端點**: `/clear`
+</ApiEndpoint>
 
-### 清除玩家資料 (Wipe)
-*   **方法**: `POST`
-*   **端點**: `/wipe`
+<ApiEndpoint method="DELETE" path="/ban" title="解除玩家封鎖" description="依玩家 UUID 解除封鎖。">
 
-### 設定玩家特定屬性值
-*   **方法**: `POST`
-*   **端點**: `/set-stat`
+```json
+{ "uuid": "8667ba71-b85a-4004-af54-457a9734eed7" }
+```
 
+</ApiEndpoint>
+
+<ApiEndpoint method="PUT" path="/ban-ip" title="封鎖 IP" description="封鎖指定 IP，reason 為選填。">
+
+```json
+{ "ip": "203.0.113.10", "reason": "Abuse" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="DELETE" path="/ban-ip" title="解除 IP 封鎖" description="解除指定 IP 的封鎖。">
+
+```json
+{ "ip": "203.0.113.10" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="PUT" path="/ban-ip-player" title="封鎖玩家 IP" description="依玩家 UUID 封鎖該玩家使用的 IP。">
+
+```json
+{
+  "uuid": "8667ba71-b85a-4004-af54-457a9734eed7",
+  "reason": "Ban evasion"
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/kick" title="踢出玩家" description="依玩家 UUID 將線上玩家踢出伺服器。">
+
+```json
+{
+  "uuid": "8667ba71-b85a-4004-af54-457a9734eed7",
+  "reason": "Server maintenance"
+}
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/kill" title="殺死玩家" description="依玩家 UUID 執行 kill。">
+
+```json
+{ "uuid": "8667ba71-b85a-4004-af54-457a9734eed7" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/clear" title="清空玩家背包" description="依玩家 UUID 清除背包物品。">
+
+```json
+{ "uuid": "8667ba71-b85a-4004-af54-457a9734eed7" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/wipe" title="清除玩家資料" description="依玩家 UUID 清除玩家資料。">
+
+```json
+{ "uuid": "8667ba71-b85a-4004-af54-457a9734eed7" }
+```
+
+</ApiEndpoint>
+
+<ApiEndpoint method="POST" path="/set-stat" title="設定玩家屬性" description="修改遊戲模式、經驗、位置、生命、飽食度或物品欄資料。">
+
+```json
+{
+  "uuid": "8667ba71-b85a-4004-af54-457a9734eed7",
+  "key": "gamemode",
+  "value": "creative"
+}
+```
+
+</ApiEndpoint>

@@ -1,24 +1,16 @@
 ---
-title: 客戶端 API
-description: 鑽石託管 DiamondHost 的客戶端 API 完整文件，包含原版 Pterodactyl 與自定義擴充端點。
+title: Client API
+description: 使用 Client API 管理帳戶、伺服器與自動化功能。
 icon: Code
 ---
 
-# 客戶端 API (Client API)
+Client API 提供帳戶、伺服器、檔案、網路、Minecraft 與自動化管理功能，適合腳本、機器人及第三方管理工具。
 
-歡迎使用鑽石託管 DiamondHost 的客戶端 API 文件。本文件提供了完整的 API 參考指南，整合了**原版 Pterodactyl 的標準端點**以及**鑽石託管特有的客製化擴充端點**，供開發人員、自動化腳本或第三方整合工具使用。
-
-所有對客戶端 API 的請求都應使用以下基礎路徑：
-
-```http
-https://panel.diamondhost.tw/api/client
-```
-
----
+<ApiBasePath>https://panel.diamondhost.tw/api/client</ApiBasePath>
 
 ## 身份驗證 (Authentication)
 
-所有的 API 請求都需要透過 **Bearer Token** 進行身份驗證。您可以在面板的「帳戶設定」->「API 金鑰」中生成您的 API Key。
+所有請求都必須透過 **Bearer Token** 驗證。登入面板後，前往「帳戶設定」→「API 金鑰」建立金鑰。
 
 在發送 HTTP 請求時，請於 Header 中附帶您的 API 金鑰：
 
@@ -28,22 +20,17 @@ Accept: application/json
 Content-Type: application/json
 ```
 
-> [!WARNING]
-> 請妥善保管您的 API 金鑰。任何擁有此金鑰的人都可以對您的帳戶與伺服器進行完整的讀寫操作，包含刪除備份、控制伺服器開關、修改檔案等。
+> API 金鑰等同帳戶操作權限。請勿寫入公開儲存庫、前端程式碼或分享給不受信任的第三方。
 
----
+## 第一個請求
 
-## 目錄導覽
+<ApiCodeExamples method="GET" path="" languages="all" defaultOpen />
 
-請透過側邊欄或下方連結訪問不同類別的 API 詳細文檔：
+## API 分類
 
-*   **[帳戶管理](account)**：個人資料變更、2FA 驗證、SSH 金鑰、WebAuthn。
-*   **[伺服器管理與擴充](server-features)**：伺服器資訊、開關機控制、資料庫、檔案管理、排程、網路埠、副使用者、備份、子網域、VSCode 等。
-*   **[Minecraft 專用 API](minecraft)**：模組包管理器、MCLogs 上傳分析、Minecraft 版本切換器、玩家管理（白名單/OP/Bans等）。
+<ApiOverview />
 
----
-
-## 錯誤處理與響應 (Error Handling)
+## 回應與錯誤處理
 
 API 遵循標準的 HTTP 狀態碼：
 
