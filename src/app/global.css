@@ -620,6 +620,52 @@
 	flex: none;
 }
 
+.docs-price-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.65rem;
+	margin: 0 0 1.75rem;
+	padding: 0.8rem 0.9rem;
+	border: 1px solid color-mix(in srgb, #d99a16 40%, var(--color-fd-border));
+	border-radius: 0.5rem;
+	background: color-mix(in srgb, #d99a16 10%, var(--color-fd-background));
+	color: var(--color-fd-muted-foreground);
+	font-size: 0.84rem;
+	line-height: 1.55;
+}
+
+.docs-price-notice > svg {
+	width: 1.05rem;
+	height: 1.05rem;
+	margin-top: 0.12rem;
+	flex: none;
+	color: #d99a16;
+}
+
+.docs-price-notice p {
+	margin: 0;
+}
+
+.docs-price-notice a {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.2rem;
+	margin-inline: 0.2rem;
+	font-weight: 700;
+	color: var(--color-fd-foreground);
+	text-decoration: underline;
+	text-underline-offset: 0.18em;
+}
+
+.docs-price-notice a:hover {
+	color: #d99a16;
+}
+
+.docs-price-notice a svg {
+	width: 0.8rem;
+	height: 0.8rem;
+}
+
 #nd-sidebar .docs-section-switcher > a,
 #nd-sidebar-mobile .docs-section-switcher > a {
 	box-sizing: border-box !important;
