@@ -12,6 +12,7 @@ import { getMDXComponents } from '@/mdx-components';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { DeveloperPortalHeader } from '@/components/api-docs';
+import { CircleAlert, ExternalLink } from 'lucide-react';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -26,6 +27,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
 
   const { body: MDX } = page.data as any;
   const markdownUrl = getPageMarkdownUrl(page).url;
+  const hasDisplayedPrice = slug.length === 1 && slug[0] === 'pricing';
 
   const gitConfig = {
     user: 'DiamondHosting',
@@ -44,6 +46,19 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       <DocsTitle className={isDeveloperPage ? 'developer-doc-title' : undefined}>{page.data.title}</DocsTitle>
       <DocsDescription className={isDeveloperPage ? 'developer-doc-description' : 'mb-0'}>{page.data.description}</DocsDescription>
       <div className={isDeveloperPage ? 'developer-title-rule' : 'flex flex-row gap-2 items-center border-b pb-6 mt-4 mb-8'} />
+      {hasDisplayedPrice ? (
+        <aside className="docs-price-notice" aria-label="價格資訊提醒">
+          <CircleAlert aria-hidden="true" />
+          <p>
+            本頁價格可能不是即時更新，最新售價、規格與優惠內容請以
+            <a href="https://store.diamondhost.tw" target="_blank" rel="noreferrer">
+              官方商店
+              <ExternalLink aria-hidden="true" />
+            </a>
+            為準。
+          </p>
+        </aside>
+      ) : null}
       <DocsBody>
         <MDX
           components={getMDXComponents({
