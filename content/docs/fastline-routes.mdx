@@ -1,0 +1,86 @@
+---
+title: Fastline 抗攻擊線路說明
+description: 鑽石託管 Fastline 抗攻擊服務之線路對應、CNAME 設定指南與連線規範說明
+icon: Network
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
+# Fastline 抗攻擊線路說明
+
+鑽石託管提供之 [Fastline 抗攻擊服務](https://store.diamondhost.tw/store/anti-ddos/fastline)，為您的伺服器與網站提供靈活的高防保護與流量清洗能力。
+
+本頁面詳細列出 Fastline 抗攻擊服務的三大 CNAME 指向線路、設定方式與連線服務規範。
+
+---
+
+## CNAME 線路設定對應表
+
+您可以依據伺服器的連線需求，使用以下 CNAME 網域進行連線或設定自訂網域（SRV / CNAME 記錄）解析：
+
+| CNAME 指向網域 | 線路名稱 | 服務類型 | 連線與品質保證 |
+| --- | --- | --- | --- |
+| [`server.diamondhost.tw`](http://fastline.diamondhost.tw/) | **FastLine** | 臺灣主要高防線路 | **保證連線與服務可用** |
+| [`cloudflare.diamondhost.tw`](http://cloudflare.diamondhost.tw/) | **Cloudflare Magic Transit** | 免費附贈線路 | **贈送服務（不保證連線）** |
+| [`intl.diamondhost.tw`](http://intl.diamondhost.tw/) | **海外清洗** | 免費附贈線路 | **贈送服務（不保證連線）** |
+
+---
+
+## 各路線詳細介紹
+
+### 1. 臺灣 FastLine 主線路 (保證可用)
+* **CNAME 地址**：`server.diamondhost.tw`（或 `fastline.diamondhost.tw`）
+* **連線品質**：**正式服務，保證連線可用性與防護品質**
+* **說明**：針對臺灣本地與亞太地區進行優化的高防清洗線路，具備極低延遲與強大防護力，為購買 Fastline 抗攻擊服務的核心保障項目。
+
+### 2. Cloudflare Magic Transit 線路 (贈送項目)
+* **CNAME 地址**：`cloudflare.diamondhost.tw`
+* **連線品質**：**免費贈送附加服務（不保證連線與可用性）**
+* **說明**：整合 Cloudflare 全球 Anycast 骨幹網路與 Magic Transit 防護。當您的伺服器遭遇來自全球的大規模攻擊時，可作為彈性防護切換選擇。
+
+### 3. 海外清洗線路 (贈送項目)
+* **CNAME 地址**：`intl.diamondhost.tw`
+* **連線品質**：**免費贈送附加服務（不保證連線與可用性）**
+* **說明**：專為海外流量清洗設計的節點線路，適合處理海外來源的極端攻擊流量。
+
+---
+
+<Callout type="warn" title="重要免責聲明與消保須知">
+  購買 [Fastline 抗攻擊服務](https://store.diamondhost.tw/store/anti-ddos/fastline) 均包含**保證可用之臺灣 FastLine 主線路**，並免費附贈 **Cloudflare Magic Transit** 以及 **海外清洗** 兩條附加線路。
+
+  **請注意**：
+  1. 附贈之 Cloudflare Magic Transit 與海外清洗線路屬於**免費贈送之附加服務（贈品）**。
+  2. 由於受限於第三方業者與國際骨幹網路狀況，本公司**不保證該二條贈送線路之連線可用性、連線成功率或連線品質**。
+  3. 贈送線路不納入服務層級協議 (SLA) 品質擔保與退款保障範圍，用戶不得因贈送線路無法連線而主張解約或退費。詳情請參閱 [服務條款](/docs/policies/terms-of-service)。
+</Callout>
+
+---
+
+## 網域 CNAME / SRV 解析設定步驟
+
+若您擁有自己的網域（如 `myserver.com`），可以跟著以下步驟設定 CNAME 記錄指向 Fastline 線路：
+
+<Steps>
+<Step>
+### 登入您的網域託管商控制台
+登入您的網域服務商（如 Cloudflare、GoDaddy、Namecheap 等）的 DNS 管理頁面。
+</Step>
+
+<Step>
+### 新增 CNAME 記錄
+新增一筆 CNAME 記錄：
+- **名稱 (Name)**：例如 `mc` 或 `@`
+- **目標 (Target / Value)**：填入 `server.diamondhost.tw`（主線路）、`cloudflare.diamondhost.tw` 或 `intl.diamondhost.tw`
+- **TTL**：設定為 `Auto` 或 `300` 秒
+</Step>
+
+<Step>
+### (Minecraft 伺服器) 設定 SRV 記錄
+若您需要自訂 Port 或隱藏連接埠，請新增一筆 SRV 記錄指向您的 CNAME 網域即可完成對應。
+</Step>
+</Steps>
+
+---
+
+如需技術支援或對線路切換有任何疑問，歡迎前往 [Discord 客服中心](https://discord.gg/EuH6qm7jPp) 開啟服務單由工程人員為您協助。
