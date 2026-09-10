@@ -1,86 +1,74 @@
 ---
-title: Fastline 抗攻擊線路說明
-description: 鑽石託管 Fastline 抗攻擊服務之線路對應、CNAME 設定指南與連線規範說明
+title: 抗攻擊路線
+description: 鑽石託管各項網路路線說明與 CNAME 設定對應指南
 icon: Network
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-# Fastline 抗攻擊線路說明
+# 我們託管的路線
 
-鑽石託管提供之 [Fastline 抗攻擊服務](https://store.diamondhost.tw/store/anti-ddos/fastline)，為您的伺服器與網站提供靈活的高防保護與流量清洗能力。
+鑽石託管為伺服器與網站提供多條高性能網路清洗與連線路線，您可以依據連線需求與地理位置選擇適當的 CNAME 指向網域。
 
-本頁面詳細列出 Fastline 抗攻擊服務的三大 CNAME 指向線路、設定方式與連線服務規範。
-
----
-
-## CNAME 線路設定對應表
-
-您可以依據伺服器的連線需求，使用以下 CNAME 網域進行連線或設定自訂網域（SRV / CNAME 記錄）解析：
-
-| CNAME 指向網域 | 線路名稱 | 服務類型 | 連線與品質保證 |
-| --- | --- | --- | --- |
-| [`server.diamondhost.tw`](http://fastline.diamondhost.tw/) | **FastLine** | 臺灣主要高防線路 | **保證連線與服務可用** |
-| [`cloudflare.diamondhost.tw`](http://cloudflare.diamondhost.tw/) | **Cloudflare Magic Transit** | 免費附贈線路 | **贈送服務（不保證連線）** |
-| [`intl.diamondhost.tw`](http://intl.diamondhost.tw/) | **海外清洗** | 免費附贈線路 | **贈送服務（不保證連線）** |
+本頁面詳細介紹各條託管路線之特性、CNAME 對應位址與網域 DNS 解析設定步驟。
 
 ---
 
-## 各路線詳細介紹
+## CNAME 路線對應總表
 
-### 1. 臺灣 FastLine 主線路 (保證可用)
+以下為鑽石託管所提供的主要連線與防護路線 CNAME 對應表：
+
+| CNAME 指向網域 | 路線名稱 | 路線說明與適用場景 |
+| --- | --- | --- |
+| [`server.diamondhost.tw`](http://fastline.diamondhost.tw/) | **FastLine 主線路** | 臺灣在地高防路線，低延遲且具備高速清洗能力 |
+| [`cloudflare.diamondhost.tw`](http://cloudflare.diamondhost.tw/) | **Cloudflare Magic Transit** | 整合 Cloudflare 全球 Anycast 防護網路與清洗節點 |
+| [`intl.diamondhost.tw`](http://intl.diamondhost.tw/) | **海外清洗路線** | 專為海外與國際流量過濾設計的節點路線 |
+
+---
+
+## 各路線詳細說明
+
+### 1. 臺灣 FastLine 主線路
 * **CNAME 地址**：`server.diamondhost.tw`（或 `fastline.diamondhost.tw`）
-* **連線品質**：**正式服務，保證連線可用性與防護品質**
-* **說明**：針對臺灣本地與亞太地區進行優化的高防清洗線路，具備極低延遲與強大防護力，為購買 Fastline 抗攻擊服務的核心保障項目。
+* **路線特色**：針對臺灣及亞太地區玩家優化的高防線路，提供極低連線 Ping 值與本土高速 DDoS 流量清洗能力，適合大部分玩家主要的連線入口。
 
-### 2. Cloudflare Magic Transit 線路 (贈送項目)
+### 2. Cloudflare Magic Transit 路線
 * **CNAME 地址**：`cloudflare.diamondhost.tw`
-* **連線品質**：**免費贈送附加服務（不保證連線與可用性）**
-* **說明**：整合 Cloudflare 全球 Anycast 骨幹網路與 Magic Transit 防護。當您的伺服器遭遇來自全球的大規模攻擊時，可作為彈性防護切換選擇。
+* **路線特色**：結合 Cloudflare 全球 Anycast 骨幹網路。當遭遇跨國或全球分散式流量攻擊時，提供大規模 Anycast 流量吸納與防護分流。
 
-### 3. 海外清洗線路 (贈送項目)
+### 3. 海外清洗路線
 * **CNAME 地址**：`intl.diamondhost.tw`
-* **連線品質**：**免費贈送附加服務（不保證連線與可用性）**
-* **說明**：專為海外流量清洗設計的節點線路，適合處理海外來源的極端攻擊流量。
-
----
-
-<Callout type="warn" title="重要免責聲明與消保須知">
-  購買 [Fastline 抗攻擊服務](https://store.diamondhost.tw/store/anti-ddos/fastline) 均包含**保證可用之臺灣 FastLine 主線路**，並免費附贈 **Cloudflare Magic Transit** 以及 **海外清洗** 兩條附加線路。
-
-  **請注意**：
-  1. 附贈之 Cloudflare Magic Transit 與海外清洗線路屬於**免費贈送之附加服務（贈品）**。
-  2. 由於受限於第三方業者與國際骨幹網路狀況，本公司**不保證該二條贈送線路之連線可用性、連線成功率或連線品質**。
-  3. 贈送線路不納入服務層級協議 (SLA) 品質擔保與退款保障範圍，用戶不得因贈送線路無法連線而主張解約或退費。詳情請參閱 [服務條款](/docs/policies/terms-of-service)。
-</Callout>
+* **路線特色**：海外防護與清洗節點，專門過濾源自海外的異常攻擊流量，保障伺服器在國際連線情境下的穩定度。
 
 ---
 
 ## 網域 CNAME / SRV 解析設定步驟
 
-若您擁有自己的網域（如 `myserver.com`），可以跟著以下步驟設定 CNAME 記錄指向 Fastline 線路：
+若您擁有自訂網域（例如 `myserver.com`），可依照以下步驟設定 DNS 指向鑽石託管路線：
 
 <Steps>
 <Step>
 ### 登入您的網域託管商控制台
-登入您的網域服務商（如 Cloudflare、GoDaddy、Namecheap 等）的 DNS 管理頁面。
+登入您的網域服務商（如 Cloudflare、GoDaddy、Namecheap 等）DNS 管理頁面。
 </Step>
 
 <Step>
 ### 新增 CNAME 記錄
-新增一筆 CNAME 記錄：
+在 DNS 設定中新增一筆 CNAME 記錄：
 - **名稱 (Name)**：例如 `mc` 或 `@`
-- **目標 (Target / Value)**：填入 `server.diamondhost.tw`（主線路）、`cloudflare.diamondhost.tw` 或 `intl.diamondhost.tw`
+- **目標 (Target / Value)**：填入 `server.diamondhost.tw`、`cloudflare.diamondhost.tw` 或 `intl.diamondhost.tw`
 - **TTL**：設定為 `Auto` 或 `300` 秒
 </Step>
 
 <Step>
 ### (Minecraft 伺服器) 設定 SRV 記錄
-若您需要自訂 Port 或隱藏連接埠，請新增一筆 SRV 記錄指向您的 CNAME 網域即可完成對應。
+若您需要自訂 Port 或隱藏連接埠，請新增一筆 SRV 記錄指向您的 CNAME 網域即可完成解析對應。
 </Step>
 </Steps>
 
 ---
 
-如需技術支援或對線路切換有任何疑問，歡迎前往 [Discord 客服中心](https://discord.gg/EuH6qm7jPp) 開啟服務單由工程人員為您協助。
+<Callout type="info">
+  關於服務計費、條款細則與流量計算規範，請參閱我們的 [服務條款](/docs/policies/terms-of-service) 與 [選購指南](/docs/pricing)。
+</Callout>
